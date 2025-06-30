@@ -5,30 +5,28 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Mi Tienda Online</title>
 <link rel="stylesheet" href="style.css" />
-<!-- Favicon placeholder -->
 <link rel="icon" type="image/png" href="favicon.png" />
 </head>
 <body>
 
 <header>
   <div class="logo">
-    <!-- Cambiá la ruta cuando tengas logo -->
     <img src="logo-placeholder.png" alt="Mi Tienda Logo" />
     <h1>Mi Tienda</h1>
   </div>
   <input type="search" id="searchInput" placeholder="Buscar productos..." />
 </header>
 
-<main>
-  <section>
-    <h2>Ofertas</h2>
-    <div id="offers" class="product-grid"></div>
-  </section>
+<section class="filters">
+  <h3>Filtrar por categoría:</h3>
+  <label><input type="checkbox" class="category-filter" value="oferta" checked> Oferta</label>
+  <label><input type="checkbox" class="category-filter" value="electronica" checked> Electrónica</label>
+  <label><input type="checkbox" class="category-filter" value="ropa" checked> Ropa</label>
+  <label><input type="checkbox" class="category-filter" value="hogar" checked> Hogar</label>
+</section>
 
-  <section>
-    <h2>Stock disponible</h2>
-    <div id="stock" class="product-grid"></div>
-  </section>
+<main>
+  <div id="productGrid" class="product-grid"></div>
 </main>
 
 <!-- Modal producto -->
@@ -38,7 +36,10 @@
     <img id="modalImg" src="" alt="Producto" />
     <h2 id="modalTitle"></h2>
     <p id="modalDesc"></p>
-    <p><del id="modalOldPrice"></del> <span id="modalPrice"></span></p>
+    <p>
+      <del id="modalOldPrice"></del> 
+      <span id="modalPrice"></span>
+    </p>
     <a id="modalBuy" href="#" target="_blank" class="buy-btn">Comprar en Mercado Libre</a>
   </div>
 </div>
@@ -46,4 +47,3 @@
 <script src="script.js"></script>
 </body>
 </html>
-
