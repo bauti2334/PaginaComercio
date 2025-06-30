@@ -1,89 +1,256 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Datos de productos
   const products = [
     {
       id: "p1",
       name: "Auricular Bluetooth A1",
-      description: "Auricular inalámbrico con sonido HD.",
+      description: "Auricular inalámbrico con sonido HD y diseño ergonómico.",
       price: 5500,
       oldPrice: 10000,
-      image: "https://via.placeholder.com/300x200?text=Auricular+Bluetooth+A1",
-      mlLink: "https://articulo.mercadolibre.com.ar/MLA-1122334455",
-      categories: ["Bluetooth", "Auriculares"]
+      image: "https://via.placeholder.com/300x200?text=Auricular+A1",
+      mlLink: "https://mercadolibre.com.ar/producto1",
+      categories: ["Auriculares", "Bluetooth"],
+      features: {
+        "Conectividad": "Bluetooth 5.0",
+        "Duración batería": "8 horas",
+        "Color": "Negro"
+      }
     },
     {
       id: "p2",
       name: "Arduino UNO R3",
-      description: "Microcontrolador para proyectos electrónicos.",
+      description: "Ideal para iniciarte en la electrónica y la programación.",
       price: 4200,
       oldPrice: 8000,
       image: "https://via.placeholder.com/300x200?text=Arduino+UNO",
-      mlLink: "https://articulo.mercadolibre.com.ar/MLA-556677889",
-      categories: ["Arduinos"]
+      mlLink: "https://mercadolibre.com.ar/producto2",
+      categories: ["Arduinos"],
+      features: {
+        "Microcontrolador": "ATmega328P",
+        "Voltaje": "5V",
+        "Entradas/Salidas": "14 digitales, 6 analógicas"
+      }
     },
-    // Puedes seguir agregando más productos aquí...
+    // Agregar más productos si querés...
   ];
 
-  const cart = [];
-  const mainContent = document.getElementById("mainContent");
+  // Estado carrito
+  let cart = [];
+
+  // Referencias DOM
+  const main = document.getElementById("mainContent");
   const filterSelect = document.getElementById("filterSelect");
   const searchInput = document.getElementById("searchInput");
   const notifyBtn = document.getElementById("notifyBtn");
-  const adContainer = document.getElementById("adContainer");
   const cartIcon = document.getElementById("cartIcon");
-  const cartModal = document.getElementById("cartModal");
-  const closeCart = document.getElementById("closeCart");
-  const cartItems = document.getElementById("cartItems");
-  const cartTotal = document.getElementById("cartTotal");
   const cartCount = document.getElementById("cartCount");
 
-  // PRODUCT MODAL
-  const productModal = document.getElementById("productModal");
-  const closeModalBtn = document.getElementById("closeModal");
-  const addToCartBtn = document.getElementById("addToCartBtn");
+  // MODALES
+  const productModal = createModal("productModal");
+  const cartModal = createModal("cartModal");
+  const notificationModal = createModal("notificationModal");
 
-  let currentModalProduct = null;
+  // Contenedores dentro de modales
+  productModal.innerHTML = `
+    <div class="modal-content">
+      <span class="close" id="closeProductModal">&times;</span>
+      <img id="modalImg" src="" alt="" style="width: 100%; max-height: 250px; object-fit: contain; border-radius: 8px;"/>
+      <h2 id="modalTitle"></h2>
+      <p id="modalDesc"></p>
+      <p><del id="modalOldPrice" style="color:#ccc;"></del> <strong id="modalPrice" style="color:#f4a300; font-size:1.3em;"></strong></p>
+      <a id="modalBuy" href="#" target="_blank" class="buy-btn">Comprar en MercadoLibre</a>
+      <button id="addToCartBtn" class="buy-btn" style="margin-top:10px; background:#e07f8f;">Agregar al carrito</button>
+    </div>
+  `;
 
-  function renderCategories(productsList) {
-    mainContent.innerHTML = "";
-    const grouped = groupByCategory(productsList);
+  cartModal.innerHTML = `
+    <div class="modal-content">
+      <span class="close" id="closeCartModal">&times;</span>
+      <h2>Tu carrito</h2>
+      <div id="cartItems" style="max-height:300px; overflow-y:auto; margin-bottom:15px;"></div>
+      <h3>Total: <span id="cartTotal">$0</span></h3>
+      <button id="checkoutBtn" class="buy-btn">Finalizar Compra</button>
+    </div>
+  `;
+
+  notificationModal.innerHTML = `
+    <div class="modal-content notification-content">
+      <span class="close" id="closeNotificationModal">&times;</span>
+      <h2 id="notificationTitle"></h2>
+      <p id="notificationText"></p>
+      <button id="notificationCloseBtn" class="buy-btn">Cerrar</button>
+    </div>
+  `;
+
+  // Función para crear modal y agregar al body si no existe
+  function createModal(id) {
+    let modal = document.getElementById(id);
+    if (!modal) {
+      modal = document.createElement("div");
+      modal.id = id;
+      modal.className = "modal";
+      document.body.appendChild(modal);
+    }
+    return modal;
+  }
+
+  // Variables para modal producto
+  let currentProduct = null;
+
+  // Abrir modal producto
+  function openProductModal(id) {
+    currentProduct = products.find(p => p.id === id);
+    if (!currentProduct) return;
+
+    productModal.querySelector("#modalImg").src = currentProduct.image;
+    productModal.querySelector("#modalImg").alt = currentProduct.name;
+    productModal.querySelector("#modalTitle").textContent = currentProduct.name;
+    productModal.querySelector("#modalDesc").textContent = currentProduct.description;
+    productModal.querySelector("#modalOldPrice").textContent = currentProduct.oldPrice ? `$${currentProduct.oldPrice}` : "";
+    productModal.querySelector("#modalPrice").textContent = `$${currentProduct.price}`;
+    productModal.querySelector("#modalBuy").href = currentProduct.mlLink;
+
+    productModal.style.display = "flex";
+  }
+
+  // Cerrar modales
+  productModal.querySelector("#closeProductModal").onclick = () => productModal.style.display = "none";
+  cartModal.querySelector("#closeCartModal").onclick = () => cartModal.style.display = "none";
+  notificationModal.querySelector("#closeNotificationModal").onclick = () => notificationModal.style.display = "none";
+  notificationModal.querySelector("#notificationCloseBtn").onclick = () => notificationModal.style.display = "none";
+
+  // Añadir producto al carrito desde modal
+  productModal.querySelector("#addToCartBtn").onclick = () => {
+    if (!currentProduct) return;
+    cart.push(currentProduct);
+    updateCartCount();
+    productModal.style.display = "none";
+    showNotification("¡Producto agregado al carrito!", `${currentProduct.name} ha sido añadido.`);
+  };
+
+  // Mostrar notificación modal
+  function showNotification(title, text) {
+    notificationModal.querySelector("#notificationTitle").textContent = title;
+    notificationModal.querySelector("#notificationText").textContent = text;
+    notificationModal.style.display = "flex";
+  }
+
+  // Actualizar contador carrito
+  function updateCartCount() {
+    cartCount.textContent = cart.length;
+  }
+
+  // Mostrar carrito
+  cartIcon.onclick = () => {
+    renderCart();
+    cartModal.style.display = "flex";
+  };
+
+  // Renderizar carrito en modal
+  function renderCart() {
+    const container = cartModal.querySelector("#cartItems");
+    container.innerHTML = "";
+
+    if (cart.length === 0) {
+      container.innerHTML = "<p>Tu carrito está vacío.</p>";
+      cartModal.querySelector("#cartTotal").textContent = "$0";
+      return;
+    }
+
+    let total = 0;
+    cart.forEach((p, i) => {
+      total += p.price;
+
+      const div = document.createElement("div");
+      div.style.display = "flex";
+      div.style.justifyContent = "space-between";
+      div.style.alignItems = "center";
+      div.style.marginBottom = "8px";
+
+      div.innerHTML = `
+        <div>
+          <strong>${p.name}</strong><br />
+          $${p.price}
+        </div>
+        <button style="background:#e07f8f; border:none; color:#fff; padding:5px 10px; border-radius:6px; cursor:pointer;" data-index="${i}">Eliminar</button>
+      `;
+
+      div.querySelector("button").onclick = (e) => {
+        const index = e.target.getAttribute("data-index");
+        cart.splice(index, 1);
+        updateCartCount();
+        renderCart();
+      };
+
+      container.appendChild(div);
+    });
+
+    cartModal.querySelector("#cartTotal").textContent = `$${total}`;
+  }
+
+  // Finalizar compra (redirecciona a MercadoLibre del primer producto)
+  cartModal.querySelector("#checkoutBtn").onclick = () => {
+    if (cart.length === 0) {
+      alert("Tu carrito está vacío.");
+      return;
+    }
+    // Abrir MercadoLibre del primer producto en carrito (podrías modificar lógica)
+    window.open(cart[0].mlLink, "_blank");
+  };
+
+  // Render productos por categorías en grilla
+  function renderCategories(list) {
+    main.innerHTML = "";
+
+    const grouped = groupByCategory(list);
 
     for (const category in grouped) {
       const section = document.createElement("section");
-      section.className = "category-section";
+      section.style.marginBottom = "40px";
 
       const title = document.createElement("h2");
-      title.className = "category-title";
       title.textContent = category;
+      title.style.color = "#f4a300";
+      title.style.marginBottom = "12px";
       section.appendChild(title);
 
       const container = document.createElement("div");
-      container.className = "category-products";
+      container.style.display = "grid";
+      container.style.gridTemplateColumns = "repeat(auto-fill, minmax(260px, 1fr))";
+      container.style.gap = "20px";
 
       grouped[category].forEach(product => {
-        const productDiv = document.createElement("div");
-        productDiv.className = "product";
-        productDiv.innerHTML = `
-          <img src="${product.image}" alt="${product.name}" />
-          <h3>${product.name}</h3>
-          <p>
-            ${product.oldPrice ? `<span class="price-old">$${product.oldPrice}</span>` : ""}
-            <span class="price">$${product.price}</span>
-          </p>
-        `;
-        productDiv.onclick = () => openProductModal(product.id);
-        container.appendChild(productDiv);
-      });
+        const card = document.createElement("div");
+        card.style.background = "rgba(0,0,0,0.8)";
+        card.style.border = "2px solid #f4a300";
+        card.style.borderRadius = "12px";
+        card.style.padding = "12px";
+        card.style.cursor = "pointer";
+        card.style.display = "flex";
+        card.style.flexDirection = "column";
+        card.style.alignItems = "center";
+        card.style.color = "#fff";
+        card.style.transition = "transform 0.2s ease";
+        card.onmouseenter = () => card.style.transform = "scale(1.05)";
+        card.onmouseleave = () => card.style.transform = "scale(1)";
 
-      container.addEventListener("wheel", e => {
-        e.preventDefault();
-        container.scrollLeft += e.deltaY;
+        card.innerHTML = `
+          <img src="${product.image}" alt="${product.name}" style="width:100%; height:160px; object-fit:contain; border-radius:8px; margin-bottom:10px;" />
+          <h3>${product.name}</h3>
+          <p><del style="color:#bbb;">$${product.oldPrice}</del> <strong style="color:#e07f8f;">$${product.price}</strong></p>
+        `;
+
+        card.onclick = () => openProductModal(product.id);
+
+        container.appendChild(card);
       });
 
       section.appendChild(container);
-      mainContent.appendChild(section);
+      main.appendChild(section);
     }
   }
 
+  // Agrupar productos por categoría (máx 9 por categoría)
   function groupByCategory(list) {
     const map = {};
     list.forEach(p => {
@@ -95,90 +262,27 @@ document.addEventListener("DOMContentLoaded", () => {
     return map;
   }
 
-  function openProductModal(id) {
-    const p = products.find(x => x.id === id);
-    if (!p) return;
-    currentModalProduct = p;
-    document.getElementById("modalImg").src = p.image;
-    document.getElementById("modalTitle").textContent = p.name;
-    document.getElementById("modalDesc").textContent = p.description;
-    document.getElementById("modalOldPrice").textContent = p.oldPrice ? `$${p.oldPrice}` : "";
-    document.getElementById("modalPrice").textContent = `$${p.price}`;
-    document.getElementById("modalBuy").href = p.mlLink;
-    productModal.style.display = "flex";
-  }
+  // Filtrar productos por texto y categorías seleccionadas
+  function filterProducts() {
+    const text = searchInput.value.toLowerCase();
+    const selectedCats = Array.from(filterSelect.selectedOptions).map(o => o.value);
 
-  function closeProductModal() {
-    productModal.style.display = "none";
-  }
-
-  closeModalBtn.onclick = closeProductModal;
-  window.onclick = e => {
-    if (e.target === productModal) closeProductModal();
-    if (e.target === cartModal) cartModal.style.display = "none";
-    if (e.target === notificationModal) notificationModal.style.display = "none";
-  };
-
-  addToCartBtn.onclick = () => {
-    if (!currentModalProduct) return;
-    cart.push(currentModalProduct);
-    updateCartCount();
-    closeProductModal();
-  };
-
-  function updateCartCount() {
-    cartCount.textContent = cart.length;
-  }
-
-  cartIcon.onclick = () => {
-    renderCart();
-    cartModal.style.display = "flex";
-  };
-
-  closeCart.onclick = () => {
-    cartModal.style.display = "none";
-  };
-
-  function renderCart() {
-    cartItems.innerHTML = "";
-    let total = 0;
-
-    cart.forEach((p, index) => {
-      total += p.price;
-
-      const item = document.createElement("div");
-      item.className = "cart-item";
-      item.innerHTML = `
-        <img src="${p.image}" alt="${p.name}" />
-        <div class="cart-item-details">
-          <strong>${p.name}</strong><br>
-          $${p.price}
-        </div>
-        <button class="cart-item-remove" data-index="${index}">Eliminar</button>
-      `;
-      cartItems.appendChild(item);
-    });
-
-    cartTotal.textContent = `$${total}`;
-    document.querySelectorAll(".cart-item-remove").forEach(btn => {
-      btn.onclick = () => {
-        const i = btn.dataset.index;
-        cart.splice(i, 1);
-        updateCartCount();
-        renderCart();
-      };
+    return products.filter(p => {
+      const matchesText = p.name.toLowerCase().includes(text) || p.description.toLowerCase().includes(text);
+      const matchesCat = selectedCats.length === 0 || selectedCats.some(cat => p.categories.includes(cat));
+      return matchesText && matchesCat;
     });
   }
 
-  // FILTRO
-  function getCategories() {
-    const set = new Set();
-    products.forEach(p => p.categories.forEach(c => set.add(c)));
-    return [...set].sort();
-  }
+  // Actualizar productos mostrados cuando cambian filtros o texto
+  searchInput.addEventListener("input", () => renderCategories(filterProducts()));
+  filterSelect.addEventListener("change", () => renderCategories(filterProducts()));
 
-  function renderFilterOptions(cats) {
-    filterSelect.innerHTML = "";
+  // Cargar categorías en select (multiselección)
+  function loadCategories() {
+    const cats = new Set();
+    products.forEach(p => p.categories.forEach(c => cats.add(c)));
+
     cats.forEach(cat => {
       const opt = document.createElement("option");
       opt.value = cat;
@@ -187,21 +291,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  function filterProducts() {
-    const text = searchInput.value.toLowerCase();
-    const selectedCats = Array.from(filterSelect.selectedOptions).map(o => o.value);
-
-    return products.filter(p => {
-      const matchText = p.name.toLowerCase().includes(text) || p.description.toLowerCase().includes(text);
-      const matchCat = selectedCats.length === 0 || selectedCats.some(cat => p.categories.includes(cat));
-      return matchText && matchCat;
-    });
-  }
-
-  searchInput.addEventListener("input", () => renderCategories(filterProducts()));
-  filterSelect.addEventListener("change", () => renderCategories(filterProducts()));
-
-  // NOTIFICACIONES
+  // Notificaciones con mensajes aleatorios y producto random
   const notificationMessages = [
     "¡Esto debe ser tuyo!",
     "OFERTA IMPERDIBLE",
@@ -210,26 +300,14 @@ document.addEventListener("DOMContentLoaded", () => {
     "Descuento especial solo hoy"
   ];
 
-  const notificationModal = document.getElementById("notificationModal");
-  const notificationTitle = document.getElementById("notificationTitle");
-  const notificationText = document.getElementById("notificationText");
-  const closeNotification = document.getElementById("closeNotification");
-  const notificationCloseBtn = document.getElementById("notificationCloseBtn");
+  notifyBtn.onclick = () => {
+    const prod = products[Math.floor(Math.random() * products.length)];
+    const msg = notificationMessages[Math.floor(Math.random() * notificationMessages.length)];
+    showNotification(msg, `${prod.name} a solo $${prod.price}!`);
+  };
 
-  function showRandomNotification() {
-    const randomProduct = products[Math.floor(Math.random() * products.length)];
-    const randomMsg = notificationMessages[Math.floor(Math.random() * notificationMessages.length)];
-
-    notificationTitle.textContent = randomMsg;
-    notificationText.textContent = `${randomProduct.name} a solo $${randomProduct.price}!`;
-    notificationModal.style.display = "flex";
-  }
-
-  closeNotification.onclick = () => notificationModal.style.display = "none";
-  notificationCloseBtn.onclick = () => notificationModal.style.display = "none";
-  notifyBtn.onclick = showRandomNotification;
-
-  // ANUNCIOS
+  // Publicidad dinámica
+  const adContainer = document.getElementById("adContainer");
   const adMessages = [
     "¡Compra ya y aprovecha!",
     "Envío gratis en pedidos mayores a $5000",
@@ -238,24 +316,24 @@ document.addEventListener("DOMContentLoaded", () => {
     "Descuentos exclusivos para ti"
   ];
 
-  function createAdBanner(text) {
-    const div = document.createElement("div");
-    div.className = "ad-banner";
-    div.textContent = text;
+  function createAd(text) {
+    const ad = document.createElement("div");
+    ad.className = "ad-banner";
+    ad.textContent = text;
 
     const closeBtn = document.createElement("span");
     closeBtn.className = "ad-close-btn";
     closeBtn.innerHTML = "&times;";
     closeBtn.onclick = (e) => {
       e.stopPropagation();
-      adContainer.removeChild(div);
+      adContainer.removeChild(ad);
     };
 
-    div.appendChild(closeBtn);
-    adContainer.appendChild(div);
+    ad.appendChild(closeBtn);
+    adContainer.appendChild(ad);
 
     setTimeout(() => {
-      if (adContainer.contains(div)) adContainer.removeChild(div);
+      if (adContainer.contains(ad)) adContainer.removeChild(ad);
     }, 10000);
   }
 
@@ -263,16 +341,25 @@ document.addEventListener("DOMContentLoaded", () => {
     setInterval(() => {
       if (adContainer.children.length < 3) {
         const msg = adMessages[Math.floor(Math.random() * adMessages.length)];
-        createAdBanner(msg);
+        createAd(msg);
       }
     }, 20000);
   }
 
+  // Inicialización
   function init() {
-    renderFilterOptions(getCategories());
+    loadCategories();
     renderCategories(products);
+    updateCartCount();
     scheduleAds();
   }
 
   init();
+
+  // Cerrar modales al hacer click afuera
+  window.onclick = e => {
+    if (e.target === productModal) productModal.style.display = "none";
+    if (e.target === cartModal) cartModal.style.display = "none";
+    if (e.target === notificationModal) notificationModal.style.display = "none";
+  };
 });
