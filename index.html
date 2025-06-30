@@ -8,67 +8,26 @@
   <link rel="icon" type="image/png" href="favicon.png" />
 </head>
 <body>
-
 <header>
   <div class="logo">
-    <img src="https://i.postimg.cc/c1mtL0YH/Gemini-Generated-Image-tfd7uvtfd7uvtfd7.png" alt="Logo Mi Tienda" />
+    <img src="https://i.postimg.cc/RFr9m6GY/freepik-br-c1e0cdce-9a9e-4d16-a6d9-4dd03ea0907a.png" alt="Logo Mi Tienda" />
     <h1>Mi Tienda Retro</h1>
   </div>
-
   <div class="header-controls">
     <input type="text" id="searchInput" placeholder="Buscar productos..." />
     <select id="filterSelect" multiple></select>
     <button id="notifyBtn">Notificaciones</button>
-    <div id="cartIcon">
-      🛒 <span id="cartCount">0</span>
-    </div>
+    <div id="cartIcon">🛒 <span id="cartCount">0</span></div>
   </div>
 </header>
+<main id="mainContent"></main>
 
-<main id="mainContent" style="padding: 10px 20px 30px;"></main>
-
-<!-- Modal Producto -->
-<div id="productModal" class="modal">
-  <div class="modal-content">
-    <span id="closeModal" class="close">&times;</span>
-    <img id="modalImg" src="" alt="Producto" />
-    <h2 id="modalTitle"></h2>
-    <p id="modalDesc"></p>
-    <p>
-      <del id="modalOldPrice"></del>
-      <span id="modalPrice"></span>
-    </p>
-    <a id="modalBuy" href="#" target="_blank" class="buy-btn">Comprar en Mercado Libre</a>
-    <button id="addToCartBtn" class="buy-btn">Agregar al carrito</button>
-  </div>
-</div>
-
-<!-- Modal Carrito -->
-<div id="cartModal" class="modal">
-  <div class="modal-content cart-content">
-    <span id="closeCart" class="close">&times;</span>
-    <h2>Carrito de Compras</h2>
-    <div id="cartItems"></div>
-    <p>Total: <span id="cartTotal">$0</span></p>
-  </div>
-</div>
-
-<!-- Modal Notificaciones -->
-<div id="notificationModal" class="modal">
-  <div class="modal-content notification-content">
-    <span id="closeNotification" class="close">&times;</span>
-    <h2 id="notificationTitle"></h2>
-    <p id="notificationText"></p>
-    <button id="notificationCloseBtn">Cerrar</button>
-  </div>
-</div>
-
-<!-- Carteles Publicidad -->
+<!-- Modales (producto, carrito, notificaciones) -->
+<div id="productModal" class="modal"></div>
+<div id="cartModal" class="modal"></div>
+<div id="notificationModal" class="modal"></div>
 <div id="adContainer"></div>
 
 <script src="script.js"></script>
 </body>
 </html>
-
-
-
