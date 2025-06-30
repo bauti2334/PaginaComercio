@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Mi Tienda Online</title>
-<link rel="stylesheet" href="style.css" />
-<link rel="icon" type="image/png" href="favicon.png" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mi Tienda Online</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="favicon.png" />
 </head>
 <body>
 
@@ -14,55 +14,49 @@
     <img src="logo-placeholder.png" alt="Mi Tienda Logo" />
     <h1>Mi Tienda</h1>
   </div>
-  <input type="search" id="searchInput" placeholder="Buscar productos..." />
+
+  <div class="header-controls">
+    <input type="text" id="searchInput" placeholder="Buscar productos..." />
+    <select id="filterSelect" multiple>
+      <!-- Se llenará dinámicamente con categorías -->
+    </select>
+    <button id="notifyBtn">Notificaciones</button>
+  </div>
 </header>
 
-<section class="filters">
-  <h3>Filtrar por categoría:</h3>
-  <label><input type="checkbox" class="category-filter" value="oferta" checked> Oferta</label>
-  <label><input type="checkbox" class="category-filter" value="electronica" checked> Electrónica</label>
-  <label><input type="checkbox" class="category-filter" value="ropa" checked> Ropa</label>
-  <label><input type="checkbox" class="category-filter" value="hogar" checked> Hogar</label>
-</section>
-
 <main id="mainContent" style="padding: 10px 20px 30px;"></main>
-  <div id="productGrid" class="product-grid"></div>
-</main>
 
 <!-- Modal producto -->
-<div id="productModal" class="modal">
+<div id="productModal" class="modal" style="display:none;">
   <div class="modal-content">
     <span id="closeModal" class="close">&times;</span>
     <img id="modalImg" src="" alt="Producto" />
     <h2 id="modalTitle"></h2>
     <p id="modalDesc"></p>
     <p>
-      <del id="modalOldPrice"></del> 
+      <del id="modalOldPrice"></del>
       <span id="modalPrice"></span>
     </p>
     <a id="modalBuy" href="#" target="_blank" class="buy-btn">Comprar en Mercado Libre</a>
   </div>
 </div>
 
-<!-- Modal Notificación -->
-<div id="notifModal" class="modal">
-  <div class="modal-content">
-    <span id="closeNotifModal" class="close">&times;</span>
-    <h2 id="notifTitle"></h2>
-    <p id="notifMessage" style="font-size:1.1em; margin: 15px 0;"></p>
-    <p><strong id="notifPrice"></strong></p>
-    <button id="notifBuyBtn" class="buy-btn">Comprar ahora</button>
+<!-- Notificaciones modal -->
+<div id="notificationModal" class="modal" style="display:none;">
+  <div class="modal-content notification-content">
+    <span id="closeNotification" class="close">&times;</span>
+    <h2 id="notificationTitle"></h2>
+    <p id="notificationText"></p>
+    <button id="notificationCloseBtn">Cerrar</button>
   </div>
 </div>
 
-<!-- Botón de notificaciones flotante -->
-<button id="notifBtn" class="notif-btn" title="Mostrar oferta">🔔</button>
-
-<!-- Contenedor para carteles publicitarios -->
-<div id="adsContainer" class="ads-container"></div>
+<!-- Carteles publicidad -->
+<div id="adContainer"></div>
 
 <script src="script.js"></script>
 </body>
 </html>
+
 
 
