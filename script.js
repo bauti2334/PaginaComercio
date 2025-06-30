@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Lista productos con categorías y detalles
   const products = [
     {
       id: "p1",
@@ -8,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
       price: 5500,
       oldPrice: 10000,
       image: "https://via.placeholder.com/300x200?text=Auricular+Bluetooth+A1",
-      mlLink: "https://articulo.mercadolibre.com.ar/MLA-1122334455-auriculares-bluetooth",
+      mlLink: "https://articulo.mercadolibre.com.ar/MLA-1122334455",
       categories: ["Bluetooth", "Auriculares"]
     },
     {
@@ -16,170 +15,39 @@ document.addEventListener("DOMContentLoaded", () => {
       name: "Arduino UNO R3",
       description: "Microcontrolador para proyectos electrónicos.",
       price: 4200,
-      oldPrice: null,
-      image: "https://via.placeholder.com/300x200?text=Arduino+UNO",
-      mlLink: "https://articulo.mercadolibre.com.ar/MLA-556677889-arduino-uno-r3",
-      categories: ["Arduinos"]
-    },
-    {
-      id: "p3",
-      name: "Auricular Bluetooth B2",
-      description: "Auricular inalámbrico cómodo y ligero.",
-      price: 6200,
-      oldPrice: 9000,
-      image: "https://via.placeholder.com/300x200?text=Auricular+Bluetooth+B2",
-      mlLink: "#",
-      categories: ["Bluetooth", "Auriculares"]
-    },
-    {
-      id: "p4",
-      name: "Arduino Mega 2560",
-      description: "Placa de desarrollo avanzada.",
-      price: 7500,
-      oldPrice: null,
-      image: "https://via.placeholder.com/300x200?text=Arduino+Mega+2560",
-      mlLink: "#",
-      categories: ["Arduinos"]
-    },
-    {
-      id: "p5",
-      name: "Auricular Cableado C3",
-      description: "Auricular con cable para audio nítido.",
-      price: 2800,
-      oldPrice: 3500,
-      image: "https://via.placeholder.com/300x200?text=Auricular+Cableado+C3",
-      mlLink: "#",
-      categories: ["Auriculares"]
-    },
-    {
-      id: "p6",
-      name: "Auricular Bluetooth C4",
-      description: "Auricular inalámbrico con micrófono.",
-      price: 6000,
       oldPrice: 8000,
-      image: "https://via.placeholder.com/300x200?text=Auricular+Bluetooth+C4",
-      mlLink: "#",
-      categories: ["Bluetooth", "Auriculares"]
-    },
-    {
-      id: "p7",
-      name: "Arduino Nano",
-      description: "Placa pequeña para proyectos compactos.",
-      price: 3500,
-      oldPrice: null,
-      image: "https://via.placeholder.com/300x200?text=Arduino+Nano",
-      mlLink: "#",
+      image: "https://via.placeholder.com/300x200?text=Arduino+UNO",
+      mlLink: "https://articulo.mercadolibre.com.ar/MLA-556677889",
       categories: ["Arduinos"]
     },
-    {
-      id: "p8",
-      name: "Auricular Gaming D5",
-      description: "Auricular para juegos con sonido surround.",
-      price: 8500,
-      oldPrice: 11000,
-      image: "https://via.placeholder.com/300x200?text=Auricular+Gaming+D5",
-      mlLink: "#",
-      categories: ["Auriculares"]
-    },
-    {
-      id: "p9",
-      name: "Auricular Bluetooth E6",
-      description: "Auricular inalámbrico con cancelación de ruido.",
-      price: 9200,
-      oldPrice: 12000,
-      image: "https://via.placeholder.com/300x200?text=Auricular+Bluetooth+E6",
-      mlLink: "#",
-      categories: ["Bluetooth", "Auriculares"]
-    }
+    // Puedes seguir agregando más productos aquí...
   ];
 
+  const cart = [];
   const mainContent = document.getElementById("mainContent");
-  const searchInput = document.getElementById("searchInput");
   const filterSelect = document.getElementById("filterSelect");
+  const searchInput = document.getElementById("searchInput");
   const notifyBtn = document.getElementById("notifyBtn");
   const adContainer = document.getElementById("adContainer");
+  const cartIcon = document.getElementById("cartIcon");
+  const cartModal = document.getElementById("cartModal");
+  const closeCart = document.getElementById("closeCart");
+  const cartItems = document.getElementById("cartItems");
+  const cartTotal = document.getElementById("cartTotal");
+  const cartCount = document.getElementById("cartCount");
 
-  // Modal producto
+  // PRODUCT MODAL
   const productModal = document.getElementById("productModal");
   const closeModalBtn = document.getElementById("closeModal");
+  const addToCartBtn = document.getElementById("addToCartBtn");
 
-  // Modal notificaciones
-  const notificationModal = document.getElementById("notificationModal");
-  const closeNotificationBtn = document.getElementById("closeNotification");
-  const notificationCloseBtn = document.getElementById("notificationCloseBtn");
-  const notificationTitle = document.getElementById("notificationTitle");
-  const notificationText = document.getElementById("notificationText");
+  let currentModalProduct = null;
 
-  // Función para crear producto
-  function createProductElement(p) {
-    const div = document.createElement("div");
-    div.className = "product";
-    div.setAttribute("data-id", p.id);
-    div.innerHTML = `
-      <img src="${p.image}" alt="${p.name}" />
-      <h3>${p.name}</h3>
-      <p>
-        ${p.oldPrice ? `<span class="price-old">$${p.oldPrice.toLocaleString()}</span>` : ""}
-        <span class="price">$${p.price.toLocaleString()}</span>
-      </p>
-    `;
-    div.addEventListener("click", () => openProductModal(p.id));
-    return div;
-  }
-
-  // Agrupar productos por categoría max 9
-  function groupProductsByCategory(productsList) {
-    const map = {};
-    productsList.forEach(p => {
-      p.categories.forEach(cat => {
-        if (!map[cat]) map[cat] = [];
-        if (map[cat].length < 9) map[cat].push(p);
-      });
-    });
-    return map;
-  }
-
-  // Obtener todas las categorías únicas para filtro
-  function getAllCategories(productsList) {
-    const set = new Set();
-    productsList.forEach(p => p.categories.forEach(c => set.add(c)));
-    return Array.from(set).sort();
-  }
-
-  // Renderizar opciones del filtro (multiple select)
-  function renderFilterOptions(categories) {
-    filterSelect.innerHTML = "";
-    categories.forEach(cat => {
-      const option = document.createElement("option");
-      option.value = cat;
-      option.textContent = cat;
-      filterSelect.appendChild(option);
-    });
-  }
-
-  // Filtrar productos según texto y categorías seleccionadas
-  function filterProducts() {
-    const searchText = searchInput.value.toLowerCase();
-    const selectedCats = Array.from(filterSelect.selectedOptions).map(opt => opt.value);
-
-    return products.filter(p => {
-      const matchesText = p.name.toLowerCase().includes(searchText) || p.description.toLowerCase().includes(searchText);
-      const matchesCategory = selectedCats.length === 0 || selectedCats.some(cat => p.categories.includes(cat));
-      return matchesText && matchesCategory;
-    });
-  }
-
-  // Renderizar categorías y productos (carrusel horizontal)
   function renderCategories(productsList) {
     mainContent.innerHTML = "";
-    const grouped = groupProductsByCategory(productsList);
+    const grouped = groupByCategory(productsList);
 
-    if (Object.keys(grouped).length === 0) {
-      mainContent.innerHTML = "<p>No se encontraron productos.</p>";
-      return;
-    }
-
-    Object.entries(grouped).forEach(([category, prods]) => {
+    for (const category in grouped) {
       const section = document.createElement("section");
       section.className = "category-section";
 
@@ -188,88 +56,186 @@ document.addEventListener("DOMContentLoaded", () => {
       title.textContent = category;
       section.appendChild(title);
 
-      const productsContainer = document.createElement("div");
-      productsContainer.className = "category-products";
+      const container = document.createElement("div");
+      container.className = "category-products";
 
-      prods.forEach(p => {
-        const prodElem = createProductElement(p);
-        productsContainer.appendChild(prodElem);
+      grouped[category].forEach(product => {
+        const productDiv = document.createElement("div");
+        productDiv.className = "product";
+        productDiv.innerHTML = `
+          <img src="${product.image}" alt="${product.name}" />
+          <h3>${product.name}</h3>
+          <p>
+            ${product.oldPrice ? `<span class="price-old">$${product.oldPrice}</span>` : ""}
+            <span class="price">$${product.price}</span>
+          </p>
+        `;
+        productDiv.onclick = () => openProductModal(product.id);
+        container.appendChild(productDiv);
       });
 
-      // Scroll horizontal con rueda del mouse
-      productsContainer.addEventListener("wheel", (e) => {
+      container.addEventListener("wheel", e => {
         e.preventDefault();
-        productsContainer.scrollLeft += e.deltaY;
+        container.scrollLeft += e.deltaY;
       });
 
-      section.appendChild(productsContainer);
+      section.appendChild(container);
       mainContent.appendChild(section);
-    });
+    }
   }
 
-  // Abrir modal producto
-  function openProductModal(productId) {
-    const p = products.find(x => x.id === productId);
-    if (!p) return;
+  function groupByCategory(list) {
+    const map = {};
+    list.forEach(p => {
+      p.categories.forEach(c => {
+        if (!map[c]) map[c] = [];
+        if (map[c].length < 9) map[c].push(p);
+      });
+    });
+    return map;
+  }
 
+  function openProductModal(id) {
+    const p = products.find(x => x.id === id);
+    if (!p) return;
+    currentModalProduct = p;
     document.getElementById("modalImg").src = p.image;
     document.getElementById("modalTitle").textContent = p.name;
     document.getElementById("modalDesc").textContent = p.description;
-    document.getElementById("modalOldPrice").textContent = p.oldPrice ? `$${p.oldPrice.toLocaleString()}` : "";
-    document.getElementById("modalPrice").textContent = `$${p.price.toLocaleString()}`;
+    document.getElementById("modalOldPrice").textContent = p.oldPrice ? `$${p.oldPrice}` : "";
+    document.getElementById("modalPrice").textContent = `$${p.price}`;
     document.getElementById("modalBuy").href = p.mlLink;
-
     productModal.style.display = "flex";
   }
 
-  // Cerrar modal producto
-  closeModalBtn.onclick = () => {
+  function closeProductModal() {
     productModal.style.display = "none";
+  }
+
+  closeModalBtn.onclick = closeProductModal;
+  window.onclick = e => {
+    if (e.target === productModal) closeProductModal();
+    if (e.target === cartModal) cartModal.style.display = "none";
+    if (e.target === notificationModal) notificationModal.style.display = "none";
   };
 
-  window.onclick = (e) => {
-    if (e.target === productModal) {
-      productModal.style.display = "none";
-    }
-    if (e.target === notificationModal) {
-      notificationModal.style.display = "none";
-    }
+  addToCartBtn.onclick = () => {
+    if (!currentModalProduct) return;
+    cart.push(currentModalProduct);
+    updateCartCount();
+    closeProductModal();
   };
 
-  // Mostrar notificación random
+  function updateCartCount() {
+    cartCount.textContent = cart.length;
+  }
+
+  cartIcon.onclick = () => {
+    renderCart();
+    cartModal.style.display = "flex";
+  };
+
+  closeCart.onclick = () => {
+    cartModal.style.display = "none";
+  };
+
+  function renderCart() {
+    cartItems.innerHTML = "";
+    let total = 0;
+
+    cart.forEach((p, index) => {
+      total += p.price;
+
+      const item = document.createElement("div");
+      item.className = "cart-item";
+      item.innerHTML = `
+        <img src="${p.image}" alt="${p.name}" />
+        <div class="cart-item-details">
+          <strong>${p.name}</strong><br>
+          $${p.price}
+        </div>
+        <button class="cart-item-remove" data-index="${index}">Eliminar</button>
+      `;
+      cartItems.appendChild(item);
+    });
+
+    cartTotal.textContent = `$${total}`;
+    document.querySelectorAll(".cart-item-remove").forEach(btn => {
+      btn.onclick = () => {
+        const i = btn.dataset.index;
+        cart.splice(i, 1);
+        updateCartCount();
+        renderCart();
+      };
+    });
+  }
+
+  // FILTRO
+  function getCategories() {
+    const set = new Set();
+    products.forEach(p => p.categories.forEach(c => set.add(c)));
+    return [...set].sort();
+  }
+
+  function renderFilterOptions(cats) {
+    filterSelect.innerHTML = "";
+    cats.forEach(cat => {
+      const opt = document.createElement("option");
+      opt.value = cat;
+      opt.textContent = cat;
+      filterSelect.appendChild(opt);
+    });
+  }
+
+  function filterProducts() {
+    const text = searchInput.value.toLowerCase();
+    const selectedCats = Array.from(filterSelect.selectedOptions).map(o => o.value);
+
+    return products.filter(p => {
+      const matchText = p.name.toLowerCase().includes(text) || p.description.toLowerCase().includes(text);
+      const matchCat = selectedCats.length === 0 || selectedCats.some(cat => p.categories.includes(cat));
+      return matchText && matchCat;
+    });
+  }
+
+  searchInput.addEventListener("input", () => renderCategories(filterProducts()));
+  filterSelect.addEventListener("change", () => renderCategories(filterProducts()));
+
+  // NOTIFICACIONES
   const notificationMessages = [
     "¡Esto debe ser tuyo!",
     "OFERTA IMPERDIBLE",
     "¡Últimas unidades!",
     "¡No te lo pierdas!",
-    "Descuento especial solo hoy",
+    "Descuento especial solo hoy"
   ];
+
+  const notificationModal = document.getElementById("notificationModal");
+  const notificationTitle = document.getElementById("notificationTitle");
+  const notificationText = document.getElementById("notificationText");
+  const closeNotification = document.getElementById("closeNotification");
+  const notificationCloseBtn = document.getElementById("notificationCloseBtn");
 
   function showRandomNotification() {
     const randomProduct = products[Math.floor(Math.random() * products.length)];
     const randomMsg = notificationMessages[Math.floor(Math.random() * notificationMessages.length)];
 
     notificationTitle.textContent = randomMsg;
-    notificationText.textContent = `${randomProduct.name} a solo $${randomProduct.price.toLocaleString()}!`;
-
+    notificationText.textContent = `${randomProduct.name} a solo $${randomProduct.price}!`;
     notificationModal.style.display = "flex";
   }
 
-  // Cerrar modal notificaciones
-  closeNotificationBtn.onclick = () => {
-    notificationModal.style.display = "none";
-  };
-  notificationCloseBtn.onclick = () => {
-    notificationModal.style.display = "none";
-  };
+  closeNotification.onclick = () => notificationModal.style.display = "none";
+  notificationCloseBtn.onclick = () => notificationModal.style.display = "none";
+  notifyBtn.onclick = showRandomNotification;
 
-  // Carteles de publicidad (aparecen periódicamente)
+  // ANUNCIOS
   const adMessages = [
     "¡Compra ya y aprovecha!",
     "Envío gratis en pedidos mayores a $5000",
     "Promoción especial solo hoy",
     "¡Productos nuevos añadidos!",
-    "Descuentos exclusivos para ti",
+    "Descuentos exclusivos para ti"
   ];
 
   function createAdBanner(text) {
@@ -288,18 +254,11 @@ document.addEventListener("DOMContentLoaded", () => {
     div.appendChild(closeBtn);
     adContainer.appendChild(div);
 
-    // Al hacer click en el cartel, también se cierra
-    div.onclick = () => {
-      if (adContainer.contains(div)) adContainer.removeChild(div);
-    };
-
-    // Se auto elimina después de 10 segundos si sigue visible
     setTimeout(() => {
       if (adContainer.contains(div)) adContainer.removeChild(div);
     }, 10000);
   }
 
-  // Mostrar carteles cada 20 segundos (máx 3 visibles)
   function scheduleAds() {
     setInterval(() => {
       if (adContainer.children.length < 3) {
@@ -309,30 +268,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 20000);
   }
 
-  // Inicializar página
   function init() {
-    // Cargar filtro categorías
-    const categories = getAllCategories(products);
-    renderFilterOptions(categories);
-
-    // Render inicial
+    renderFilterOptions(getCategories());
     renderCategories(products);
-
-    // Event listeners filtros y búsqueda
-    searchInput.addEventListener("input", () => {
-      renderCategories(filterProducts());
-    });
-
-    filterSelect.addEventListener("change", () => {
-      renderCategories(filterProducts());
-    });
-
-    // Botón notificaciones
-    notifyBtn.addEventListener("click", () => {
-      showRandomNotification();
-    });
-
-    // Iniciar carteles
     scheduleAds();
   }
 
