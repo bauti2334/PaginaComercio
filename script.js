@@ -122,3 +122,50 @@ window.onload = () => {
   filterProducts();
 };
 
+// Mensajes llamativos para la notificación
+const notifMessages = [
+  "¡Esto debe ser tuyo!",
+  "OFERTA IMPERDIBLE",
+  "Solo por hoy",
+  "¡No te lo pierdas!",
+  "Descuento exclusivo",
+  "Compra ahora y ahorra",
+];
+
+// Crear carteles publicitarios (pueden ser estáticos o rotar)
+const adsTexts = [
+  "Envío gratis en compras > $5000",
+  "¡30% OFF en auriculares!",
+  "Compra 2 y lleva 3",
+  "Descuentos exclusivos en ropa",
+];
+
+// Crear y mostrar los carteles
+function createAds() {
+  const adsContainer = document.getElementById("adsContainer");
+  adsContainer.innerHTML = "";
+  adsTexts.forEach(text => {
+    const ad = document.createElement("div");
+    ad.className = "ad-banner";
+    ad.textContent = text;
+    adsContainer.appendChild(ad);
+  });
+}
+
+// Mostrar notificación con producto random y mensaje
+function showRandomNotif() {
+  const randomProduct = products[Math.floor(Math.random() * products.length)];
+  const randomMessage = notifMessages[Math.floor(Math.random() * notifMessages.length)];
+
+  alert(`${randomProduct.name}\n${randomMessage}\nPrecio: $${randomProduct.price.toLocaleString()}`);
+}
+
+// Crear ads al cargar
+window.onload = () => {
+  filterProducts();  // Ya estaba para renderizar productos
+  createAds();
+};
+
+// Evento click en botón notificaciones
+document.getElementById("notifBtn").addEventListener("click", showRandomNotif);
+
