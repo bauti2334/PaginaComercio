@@ -44,10 +44,21 @@
   </div>
 </div>
 
-<!-- Botón de notificaciones flotante -->
-<button id="notifBtn" class="notif-btn">🔔</button>
+<!-- Modal Notificación -->
+<div id="notifModal" class="modal">
+  <div class="modal-content">
+    <span id="closeNotifModal" class="close">&times;</span>
+    <h2 id="notifTitle"></h2>
+    <p id="notifMessage" style="font-size:1.1em; margin: 15px 0;"></p>
+    <p><strong id="notifPrice"></strong></p>
+    <button id="notifBuyBtn" class="buy-btn">Comprar ahora</button>
+  </div>
+</div>
 
-<!-- Carteles publicitarios -->
+<!-- Botón de notificaciones flotante -->
+<button id="notifBtn" class="notif-btn" title="Mostrar oferta">🔔</button>
+
+<!-- Contenedor para carteles publicitarios -->
 <div id="adsContainer" class="ads-container"></div>
 
 <script src="script.js"></script>
