@@ -1,4 +1,5 @@
 /* Reset y base */
+/* Reset y base */
 * {
   box-sizing: border-box;
 }
@@ -33,6 +34,30 @@ header {
   font-size: 1em;
 }
 
+.filters {
+  padding: 10px 20px;
+  background: #fff;
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.filters h3 {
+  margin: 0;
+  margin-right: 10px;
+  font-weight: normal;
+}
+
+.filters label {
+  font-size: 0.9em;
+  cursor: pointer;
+}
+
+.filters input[type="checkbox"] {
+  margin-right: 5px;
+}
+
 h2 {
   margin-left: 20px;
   color: #222;
@@ -40,7 +65,7 @@ h2 {
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
   gap: 15px;
   padding: 10px 20px 30px;
 }
@@ -72,16 +97,18 @@ h2 {
   color: #111;
 }
 
+/* Precio estilo AliExpress */
 .product .price-old {
   text-decoration: line-through;
   color: #888;
+  font-size: 0.9em;
   margin-right: 8px;
 }
 
 .product .price {
   font-weight: bold;
-  color: #b12704;
-  font-size: 1.1em;
+  color: #e2231a;
+  font-size: 1.3em;
 }
 
 /* Modal producto */
@@ -137,3 +164,4 @@ h2 {
 .buy-btn:hover {
   background-color: #f0b400;
 }
+
