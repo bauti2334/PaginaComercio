@@ -165,3 +165,56 @@ h2 {
   background-color: #f0b400;
 }
 
+/* Botón de notificaciones */
+.notif-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #ffca28;
+  border: none;
+  padding: 15px 20px;
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  transition: background-color 0.3s ease;
+  z-index: 1100;
+}
+
+.notif-btn:hover {
+  background-color: #f0b400;
+}
+
+/* Contenedor de carteles publicitarios */
+.ads-container {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  width: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 1100;
+}
+
+/* Estilo de cada cartel */
+.ad-banner {
+  background: linear-gradient(135deg, #ff5757, #ffca28);
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  cursor: default;
+  text-align: center;
+  user-select: none;
+  animation: pulse 2.5s infinite;
+}
+
+/* Animación para llamar atención */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
