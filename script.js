@@ -65,7 +65,7 @@ function renderProducts(filteredProducts) {
   });
 }
 
-// Modal
+// Modal producto
 const modal = document.getElementById("productModal");
 const closeModalBtn = document.getElementById("closeModal");
 
@@ -83,7 +83,7 @@ function openModal(productId) {
   modal.style.display = "flex";
 }
 
-// Cerrar modal
+// Cerrar modal producto
 closeModalBtn.onclick = () => {
   modal.style.display = "none";
 };
@@ -92,7 +92,6 @@ window.onclick = e => {
 };
 
 // Filtros
-
 const searchInput = document.getElementById("searchInput");
 const categoryCheckboxes = document.querySelectorAll(".category-filter");
 
@@ -117,11 +116,6 @@ function filterProducts() {
 searchInput.addEventListener("input", filterProducts);
 categoryCheckboxes.forEach(cb => cb.addEventListener("change", filterProducts));
 
-// Carga inicial
-window.onload = () => {
-  filterProducts();
-};
-
 // Mensajes llamativos para la notificación
 const notifMessages = [
   "¡Esto debe ser tuyo!",
@@ -132,7 +126,7 @@ const notifMessages = [
   "Compra ahora y ahorra",
 ];
 
-// Crear carteles publicitarios (pueden ser estáticos o rotar)
+// Carteles publicitarios
 const adsTexts = [
   "Envío gratis en compras > $5000",
   "¡30% OFF en auriculares!",
@@ -140,32 +134,49 @@ const adsTexts = [
   "Descuentos exclusivos en ropa",
 ];
 
-// Crear y mostrar los carteles
-function createAds() {
-  const adsContainer = document.getElementById("adsContainer");
+const adsContainer = document.getElementById("adsContainer");
+let currentAdIndex = 0;
+let adTimeoutId = null;
+
+// Función para mostrar un cartel
+function showAd() {
   adsContainer.innerHTML = "";
-  adsTexts.forEach(text => {
-    const ad = document.createElement("div");
-    ad.className = "ad-banner";
-    ad.textContent = text;
-    adsContainer.appendChild(ad);
-  });
+  if(currentAdIndex >= adsTexts.length) currentAdIndex = 0;
+
+  const adText = adsTexts[currentAdIndex];
+  currentAdIndex++;
+
+  const ad = document.createElement("div");
+  ad.className = "ad-banner";
+
+  const closeBtn = document.createElement("button");
+  closeBtn.className = "ad-close-btn";
+  closeBtn.innerHTML = "&times;";
+  closeBtn.title = "Cerrar publicidad";
+  closeBtn.onclick = () => {
+    adsContainer.innerHTML = "";
+    scheduleNextAd();
+  };
+
+  ad.textContent = adText;
+  ad.appendChild(closeBtn);
+  adsContainer.appendChild(ad);
+
+  // Programa siguiente ad después de 5 segundos
+  adTimeoutId = setTimeout(() => {
+    adsContainer.innerHTML = "";
+    scheduleNextAd();
+  }, 5000);
 }
 
-// Mostrar notificación con producto random y mensaje
-function showRandomNotif() {
-  const randomProduct = products[Math.floor(Math.random() * products.length)];
-  const randomMessage = notifMessages[Math.floor(Math.random() * notifMessages.length)];
-
-  alert(`${randomProduct.name}\n${randomMessage}\nPrecio: $${randomProduct.price.toLocaleString()}`);
+// Programa la siguiente aparición del cartel
+function scheduleNextAd() {
+  adTimeoutId = setTimeout(() => {
+    showAd();
+  }, 3000);
 }
 
-// Crear ads al cargar
-window.onload = () => {
-  filterProducts();  // Ya estaba para renderizar productos
-  createAds();
-};
-
-// Evento click en botón notificaciones
-document.getElementById("notifBtn").addEventListener("click", showRandomNotif);
-
+// Modal notificaciones
+const notifModal = document.getElementById("notifModal");
+const closeNotifModalBtn = document.getElementById("closeNotifModal");
+const notifTitl
