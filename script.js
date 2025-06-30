@@ -1,14 +1,14 @@
-// Datos de productos (podés agregar/quitar o luego cargar JSON)
+// Productos con categorías tags (array de strings)
 const products = [
   {
     id: "p1",
     name: "Zapatos deportivos",
     description: "Zapatos cómodos para correr y caminar.",
     price: 7500,
-    oldPrice: 9000,
+    oldPrice: 15000,
     image: "https://via.placeholder.com/300x200?text=Zapatos",
     mlLink: "https://articulo.mercadolibre.com.ar/MLA-123456789-zapatos-deportivos",
-    category: "oferta"
+    categories: ["oferta", "ropa"]
   },
   {
     id: "p2",
@@ -18,17 +18,17 @@ const products = [
     oldPrice: null,
     image: "https://via.placeholder.com/300x200?text=Camiseta",
     mlLink: "https://articulo.mercadolibre.com.ar/MLA-987654321-camiseta-deportiva",
-    category: "stock"
+    categories: ["ropa"]
   },
   {
     id: "p3",
     name: "Auriculares Bluetooth",
     description: "Auriculares inalámbricos con gran calidad de sonido.",
     price: 5500,
-    oldPrice: 6000,
+    oldPrice: 10000,
     image: "https://via.placeholder.com/300x200?text=Auriculares",
     mlLink: "https://articulo.mercadolibre.com.ar/MLA-1122334455-auriculares-bluetooth",
-    category: "oferta"
+    categories: ["oferta", "electronica"]
   },
   {
     id: "p4",
@@ -38,17 +38,17 @@ const products = [
     oldPrice: null,
     image: "https://via.placeholder.com/300x200?text=Mochila",
     mlLink: "https://articulo.mercadolibre.com.ar/MLA-556677889-mochila-para-laptop",
-    category: "stock"
+    categories: ["hogar"]
   }
 ];
 
-// Función para mostrar productos en un contenedor
-function renderProducts(containerId, category) {
-  const container = document.getElementById(containerId);
-  container.innerHTML = "";
-  const filtered = products.filter(p => p.category === category);
+// Mostrar productos en el grid
+const productGrid = document.getElementById("productGrid");
 
-  filtered.forEach(p => {
+// Renderiza productos filtrados
+function renderProducts(filteredProducts) {
+  productGrid.innerHTML = "";
+  filteredProducts.forEach(p => {
     const div = document.createElement("div");
     div.className = "product";
     div.setAttribute("data-id", p.id);
@@ -60,9 +60,8 @@ function renderProducts(containerId, category) {
         <span class="price">$${p.price.toLocaleString()}</span>
       </p>
     `;
-    // Abrir modal al hacer click
     div.addEventListener("click", () => openModal(p.id));
-    container.appendChild(div);
+    productGrid.appendChild(div);
   });
 }
 
@@ -88,27 +87,38 @@ function openModal(productId) {
 closeModalBtn.onclick = () => {
   modal.style.display = "none";
 };
-
-// Cerrar modal si se clickea fuera del contenido
 window.onclick = e => {
   if (e.target === modal) modal.style.display = "none";
 };
 
-// Buscador en tiempo real
-const searchInput = document.getElementById("searchInput");
-searchInput.addEventListener("input", () => {
-  const val = searchInput.value.toLowerCase();
-  ["offers", "stock"].forEach(section => {
-    const container = document.getElementById(section);
-    Array.from(container.children).forEach(productDiv => {
-      const name = productDiv.querySelector("h3").textContent.toLowerCase();
-      productDiv.style.display = name.includes(val) ? "" : "none";
-    });
-  });
-});
+// Filtros
 
-// Mostrar productos al cargar la página
+const searchInput = document.getElementById("searchInput");
+const categoryCheckboxes = document.querySelectorAll(".category-filter");
+
+function filterProducts() {
+  const searchText = searchInput.value.toLowerCase();
+  const selectedCategories = Array.from(categoryCheckboxes)
+    .filter(cb => cb.checked)
+    .map(cb => cb.value);
+
+  const filtered = products.filter(p => {
+    // Buscar por texto
+    const matchesText = p.name.toLowerCase().includes(searchText);
+    // Categorías: al menos una coincida
+    const matchesCategory = p.categories.some(cat => selectedCategories.includes(cat));
+    return matchesText && matchesCategory;
+  });
+
+  renderProducts(filtered);
+}
+
+// Eventos para filtros
+searchInput.addEventListener("input", filterProducts);
+categoryCheckboxes.forEach(cb => cb.addEventListener("change", filterProducts));
+
+// Carga inicial
 window.onload = () => {
-  renderProducts("offers", "oferta");
-  renderProducts("stock", "stock");
+  filterProducts();
 };
+
