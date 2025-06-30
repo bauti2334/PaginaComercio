@@ -1,5 +1,4 @@
 /* Reset y base */
-/* Reset y base */
 * {
   box-sizing: border-box;
 }
@@ -111,7 +110,7 @@ h2 {
   font-size: 1.3em;
 }
 
-/* Modal producto */
+/* Modal producto y notificaciones */
 
 .modal {
   display: none; /* Oculto por defecto */
@@ -159,6 +158,8 @@ h2 {
   text-decoration: none;
   margin-top: 15px;
   transition: background 0.3s;
+  border: none;
+  cursor: pointer;
 }
 
 .buy-btn:hover {
@@ -185,12 +186,12 @@ h2 {
   background-color: #f0b400;
 }
 
-/* Contenedor de carteles publicitarios */
+/* Contenedor para carteles publicitarios */
 .ads-container {
   position: fixed;
   top: 80px;
   right: 20px;
-  width: 180px;
+  width: 220px;
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -199,9 +200,10 @@ h2 {
 
 /* Estilo de cada cartel */
 .ad-banner {
+  position: relative;
   background: linear-gradient(135deg, #ff5757, #ffca28);
   color: white;
-  padding: 12px;
+  padding: 12px 40px 12px 12px;
   border-radius: 8px;
   font-weight: bold;
   font-size: 14px;
@@ -212,9 +214,29 @@ h2 {
   animation: pulse 2.5s infinite;
 }
 
+/* Botón cerrar cartel */
+.ad-close-btn {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  background: rgba(255,255,255,0.7);
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #333;
+  line-height: 17px;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.ad-close-btn:hover {
+  background: white;
+}
+
 /* Animación para llamar atención */
 @keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-}
+  0%, 100% { transform: s
 
