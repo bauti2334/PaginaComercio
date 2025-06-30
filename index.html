@@ -1,38 +1,49 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mi Tienda</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mi Tienda Online</title>
+<link rel="stylesheet" href="style.css" />
+<!-- Favicon placeholder -->
+<link rel="icon" type="image/png" href="favicon.png" />
 </head>
 <body>
 
-  <header>
-    <h1>🛒 Mi Tienda</h1>
-  </header>
+<header>
+  <div class="logo">
+    <!-- Cambiá la ruta cuando tengas logo -->
+    <img src="logo-placeholder.png" alt="Mi Tienda Logo" />
+    <h1>Mi Tienda</h1>
+  </div>
+  <input type="search" id="searchInput" placeholder="Buscar productos..." />
+</header>
 
-  <main class="product-grid">
-    <div class="product">
-      <img src="https://via.placeholder.com/200" alt="Producto 1">
-      <h2>Nombre del Producto</h2>
-      <p class="price">$10.000</p>
-      <a class="buy-btn" href="https://articulo.mercadolibre.com.ar/" target="_blank">Comprar en Mercado Libre</a>
-    </div>
+<main>
+  <section>
+    <h2>Ofertas</h2>
+    <div id="offers" class="product-grid"></div>
+  </section>
 
-    <div class="product">
-      <img src="https://via.placeholder.com/200" alt="Producto 2">
-      <h2>Otro Producto</h2>
-      <p class="price">$25.000</p>
-      <a class="buy-btn" href="https://articulo.mercadolibre.com.ar/" target="_blank">Comprar en Mercado Libre</a>
-    </div>
+  <section>
+    <h2>Stock disponible</h2>
+    <div id="stock" class="product-grid"></div>
+  </section>
+</main>
 
-    <!-- Agregá más productos copiando y pegando -->
-  </main>
+<!-- Modal producto -->
+<div id="productModal" class="modal">
+  <div class="modal-content">
+    <span id="closeModal" class="close">&times;</span>
+    <img id="modalImg" src="" alt="Producto" />
+    <h2 id="modalTitle"></h2>
+    <p id="modalDesc"></p>
+    <p><del id="modalOldPrice"></del> <span id="modalPrice"></span></p>
+    <a id="modalBuy" href="#" target="_blank" class="buy-btn">Comprar en Mercado Libre</a>
+  </div>
+</div>
 
-  <footer>
-    <p>&copy; 2025 Mi Tienda</p>
-  </footer>
-
+<script src="script.js"></script>
 </body>
 </html>
+
