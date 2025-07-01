@@ -240,7 +240,10 @@ document.addEventListener("DOMContentLoaded", () => {
           <p><del style="color:#bbb;">$${product.oldPrice}</del> <strong style="color:#e07f8f;">$${product.price}</strong></p>
         `;
 
-        card.onclick = () => openProductModal(product.id);
+       card.onclick = () => {
+  window.location.href = `producto.html?id=${product.id}`;
+};
+
 
         container.appendChild(card);
       });
