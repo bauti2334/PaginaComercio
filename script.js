@@ -223,4 +223,21 @@ function agregarAlCarrito(id) {
 }
 
 cartBtn.onclick = () => {
-  renderizarCar ​:contentReference[oaicite:0]{index=0}​
+  renderizarCarrito();
+  cartModal.style.display = "block";
+};
+
+cartClose.onclick = () => {
+  cartModal.style.display = "none";
+};
+
+clearCartBtn.onclick = () => {
+  carrito = [];
+  guardarCarrito();
+  renderizarCarrito();
+};
+
+// Inicial
+renderCategories(productos);
+showSlide(0);
+actualizarContador();
