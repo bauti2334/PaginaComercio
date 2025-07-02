@@ -1,4 +1,4 @@
-// ==== Productos simulados ====
+// Productos simulados
 const productos = [
   {
     id: "p1",
@@ -32,7 +32,7 @@ const productos = [
   }
 ];
 
-// ---- Render categorías productos ----
+// Renderizar categorías con scroll horizontal
 function renderCategories(productList) {
   const container = document.getElementById("productContainer");
   container.innerHTML = "";
@@ -72,9 +72,9 @@ function renderCategories(productList) {
   }
 }
 
-// ---- Buscador con filtro y sugerencias ----
+// Buscador con sugerencias
 const searchInput = document.getElementById("searchInput");
-const searchSuggestions = document.getElementById("searchSuggestions");
+const searchSuggestions = document.querySelector(".suggestions-list");
 
 function buscarProductos() {
   const term = searchInput.value.toLowerCase().trim();
@@ -88,7 +88,6 @@ function buscarProductos() {
     p.description.toLowerCase().includes(term) ||
     p.tags.some(t => t.toLowerCase().includes(term))
   );
-
   renderCategories(filtered);
   updateSuggestions(filtered, term);
 }
@@ -99,11 +98,7 @@ function updateSuggestions(filteredProducts, term) {
 
   filteredProducts.slice(0, 7).forEach(prod => {
     const li = document.createElement("li");
-    // Resaltamos término en nombre (simple)
-    li.innerHTML = prod.name.replace(
-      new RegExp(term, "gi"),
-      (match) => `<strong>${match}</strong>`
-    );
+    li.innerHTML = prod.name.replace(new RegExp(term, "gi"), (match) => `<strong>${match}</strong>`);
     li.onclick = () => {
       searchInput.value = prod.name;
       clearSuggestions();
@@ -119,7 +114,6 @@ function clearSuggestions() {
   searchSuggestions.style.display = "none";
 }
 
-// Eventos para buscador y sugerencias
 searchInput.addEventListener("input", () => {
   const term = searchInput.value.toLowerCase().trim();
   if (term.length === 0) {
@@ -143,7 +137,7 @@ document.getElementById("searchBtn").addEventListener("click", () => {
   clearSuggestions();
 });
 
-// --- Carrusel ---
+// Carrusel
 let currentSlide = 0;
 const slides = document.querySelectorAll(".carousel-slide");
 
@@ -162,7 +156,7 @@ document.getElementById("prevCarousel").addEventListener("click", () => {
 setInterval(() => showSlide(currentSlide + 1), 8000);
 showSlide(0);
 
-// --- Notificaciones ---
+// Notificaciones
 const notifBtn = document.getElementById("notifBtn");
 const notifCount = document.getElementById("notifCount");
 const notifDropdown = document.getElementById("notifDropdown");
@@ -171,43 +165,36 @@ const notifCloseBtn = document.getElementById("notifCloseBtn");
 
 const notificacionesSimuladas = [
   "¡Oferta flash en auriculares Bluetooth!",
-  "Nuevo stock de Kit Arduino Uno disponible.",
-  "Teclado Retro Iluminado con 20% de descuento."
+  "Nuevo stock de Kit Arduino Uno disponible",
+  "Teclado Retro con descuento especial"
 ];
 
 function actualizarNotificaciones() {
-  const cant = notificacionesSimuladas.length;
-  notifCount.textContent = cant;
-  notifCount.style.visibility = cant > 0 ? "visible" : "hidden";
-  // Mostrar listado notificaciones en dropdown
   notifList.innerHTML = "";
-  notificacionesSimuladas.forEach(msg => {
+  notificacionesSimuladas.forEach(mensaje => {
     const li = document.createElement("li");
-    li.textContent = msg;
+    li.textContent = mensaje;
     notifList.appendChild(li);
   });
+  notifCount.textContent = notificacionesSimuladas.length;
+  notifCount.classList.add("visible");
 }
 
 notifBtn.addEventListener("click", () => {
-  notifDropdown.classList.toggle("hidden");
-  // Cierra carrito si abierto
-  if (!document.getElementById("cartDropdown").classList.contains("hidden")) {
-    document.getElementById("cartDropdown").classList.add("hidden");
+  notifDropdown.classList.toggle("visible");
+  if (!cartDropdown.classList.contains("hidden")) {
+    cartDropdown.classList.add("hidden");
   }
 });
 
-notifCloseBtn.addEventListener("click", () => {
-  notifDropdown.classList.add("hidden");
-});
-
-// --- Carrito ---
+// Carrito
 const cartBtn = document.getElementById("cartBtn");
 const cartCount = document.getElementById("cartCount");
 const cartDropdown = document.getElementById("cartDropdown");
 const cartList = document.getElementById("cartList");
 const cartTotal = document.getElementById("cartTotal");
-const cartBuyBtn = document.getElementById("cartBuyBtn");
 const cartCloseBtn = document.getElementById("cartCloseBtn");
+const cartBuyBtn = document.getElementById("cartBuyBtn");
 
 function cargarCarrito() {
   return JSON.parse(localStorage.getItem("carrito")) || [];
@@ -219,28 +206,34 @@ function guardarCarrito(carrito) {
 
 function actualizarCarrito() {
   const carrito = cargarCarrito();
-  cartCount.textContent = carrito.length;
-  cartCount.style.visibility = carrito.length > 0 ? "visible" : "hidden";
-
   cartList.innerHTML = "";
+
+  if (carrito.length === 0) {
+    cartList.innerHTML = "<li>Carrito vacío</li>";
+    cartCount.classList.remove("visible");
+    cartTotal.textContent = "$0.00";
+    return;
+  }
+
+  cartCount.textContent = carrito.reduce((acc, item) => acc + item.cantidad, 0);
+  cartCount.classList.add("visible");
+
   let total = 0;
   carrito.forEach(item => {
     const prod = productos.find(p => p.id === item.id);
     if (prod) {
       total += prod.price * item.cantidad;
       const li = document.createElement("li");
-      li.innerHTML = `
-        <strong>${prod.name}</strong> x${item.cantidad} - $${prod.price * item.cantidad}
-      `;
+      li.innerHTML = `${prod.name} x${item.cantidad} - $${(prod.price * item.cantidad).toFixed(2)}`;
       cartList.appendChild(li);
     }
   });
+
   cartTotal.textContent = `$${total.toFixed(2)}`;
 }
 
 cartBtn.addEventListener("click", () => {
-  cartDropdown.classList.toggle("hidden");
-  // Cierra notificaciones si abierto
+  cartDropdown.classList.toggle("visible");
   if (!notifDropdown.classList.contains("hidden")) {
     notifDropdown.classList.add("hidden");
   }
@@ -248,11 +241,10 @@ cartBtn.addEventListener("click", () => {
 });
 
 cartCloseBtn.addEventListener("click", () => {
-  cartDropdown.classList.add("hidden");
+  cartDropdown.classList.remove("visible");
 });
 
 cartBuyBtn.addEventListener("click", () => {
-  // Al hacer click en comprar, abrimos Mercado Libre para cada producto (puedes ajustar lógica)
   const carrito = cargarCarrito();
   carrito.forEach(item => {
     const prod = productos.find(p => p.id === item.id);
@@ -262,10 +254,22 @@ cartBuyBtn.addEventListener("click", () => {
   });
 });
 
-// --- Actualización general al cargar ---
+// Añadir producto al carrito
+function agregarAlCarrito(id) {
+  let carrito = cargarCarrito();
+  const exist = carrito.find(item => item.id === id);
+  if (exist) {
+    exist.cantidad++;
+  } else {
+    carrito.push({ id: id, cantidad: 1 });
+  }
+  guardarCarrito(carrito);
+  actualizarCarrito();
+}
+
+// Al cargar la página
 window.addEventListener("load", () => {
   actualizarNotificaciones();
   actualizarCarrito();
   renderCategories(productos);
 });
-
