@@ -5,158 +5,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Mi Tienda Retro</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="favicon.png" />
 </head>
 <body>
 
-  <!-- HEADER -->
- <header style="background: #2a2a2a; display: flex; align-items: center; justify-content: space-between; padding: 10px 30px; border-bottom: 3px solid #f4a300;">
-  <!-- Logo y título -->
-  <a href="index.html" style="display:flex; align-items:center; gap:10px; text-decoration:none; color:#f4a300;">
-    <img src="https://i.postimg.cc/RFr9m6GY/freepik-br-c1e0cdce-9a9e-4d16-a6d9-4dd03ea0907a.png" alt="Logo" style="height: 50px; border-radius: 8px;" />
-    <h1 style="margin: 0; font-size: 1.8rem;">Mi Tienda Retro</h1>
+<header>
+  <a href="index.html" class="logo">
+    <img src="https://i.postimg.cc/RFr9m6GY/freepik-br-c1e0cdce-9a9e-4d16-a6d9-4dd03ea0907a.png" alt="Logo" />
+    <h1>Mi Tienda Retro</h1>
   </a>
 
-  <!-- Buscador y botones -->
-  <div style="display: flex; align-items: center; gap: 25px;">
-    <!-- Buscador -->
-    <div style="position: relative; width: 400px;">
-      <input
-        id="searchInput"
-        type="text"
-        placeholder="Buscar productos, categorías..."
-        style="
-          width: 100%;
-          padding: 10px 45px 10px 15px;
-          border-radius: 25px;
-          border: none;
-          font-size: 1rem;
-          outline: none;
-        "
-      />
-      <button
-        id="searchBtn"
-        style="
-          position: absolute;
-          right: 5px;
-          top: 50%;
-          transform: translateY(-50%);
-          background: #f4a300;
-          border: none;
-          border-radius: 50%;
-          width: 35px;
-          height: 35px;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        "
-        aria-label="Buscar"
-      >
-        <!-- Icono lupa SVG -->
+  <div class="header-right">
+    <div class="search-container">
+      <input id="searchInput" type="text" placeholder="Buscar productos, categorías..." />
+      <button id="searchBtn" aria-label="Buscar">
         <svg xmlns="http://www.w3.org/2000/svg" fill="#2a2a2a" height="20" viewBox="0 0 24 24" width="20">
           <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16a6.471 6.471 0 004.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zM9.5 14A4.5 4.5 0 119.5 5a4.5 4.5 0 010 9z"/>
         </svg>
       </button>
     </div>
 
-    <!-- Botón notificaciones -->
-    <button id="notifBtn" style="background:none; border:none; cursor:pointer; position: relative;">
+    <button id="notifBtn" class="icon-btn" aria-label="Notificaciones">
       <svg xmlns="http://www.w3.org/2000/svg" fill="#f4a300" height="28" viewBox="0 0 24 24" width="28">
         <path d="M12 22c1.1 0 2-.89 2-1.99h-4c0 1.1.9 1.99 2 1.99zm6-6V9c0-3.07-1.64-5.64-4.5-6.32V2a1.5 1.5 0 00-3 0v.68C7.64 3.36 6 5.92 6 9v7l-2 2v1h16v-1l-2-2z"/>
       </svg>
-      <span id="notifCount" style="
-        position: absolute;
-        top: -5px;
-        right: -5px;
-        background: #e60000;
-        color: white;
-        border-radius: 50%;
-        font-size: 12px;
-        width: 18px;
-        height: 18px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        user-select: none;
-        visibility: hidden;
-      ">0</span>
+      <span id="notifCount" class="badge">0</span>
     </button>
 
-    <!-- Botón carrito -->
-    <button id="cartBtn" style="background:none; border:none; cursor:pointer; position: relative;">
+    <button id="cartBtn" class="icon-btn" aria-label="Carrito de compras">
       <svg xmlns="http://www.w3.org/2000/svg" fill="#f4a300" height="28" viewBox="0 0 24 24" width="28">
         <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 2-2-.9-2-2-2zM7.16 14h9.69l1.24-5H6.12l1.04 5zM6 6H4v2h2l3.6 7.59-1.35 2.44C7.16 18.37 7 18.68 7 19c0 .55.45 1 1 1h12v-2H9.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.72c.75 0 1.41-.41 1.75-1.03L21.75 7H7.16z"/>
       </svg>
-      <span id="cartCount" style="
-        position: absolute;
-        top: -5px;
-        right: -5px;
-        background: #e60000;
-        color: white;
-        border-radius: 50%;
-        font-size: 12px;
-        width: 18px;
-        height: 18px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        user-select: none;
-        visibility: hidden;
-      ">0</span>
+      <span id="cartCount" class="badge">0</span>
     </button>
   </div>
 </header>
 
-
-  <!-- CARRUSEL -->
-  <div class="carousel-container">
-    <button class="carousel-btn left" onclick="prevSlide()">&#10094;</button>
-    <div class="carousel" id="carousel">
-      <img src="https://via.placeholder.com/1200x400?text=Oferta+1" class="carousel-slide" />
-      <img src="https://via.placeholder.com/1200x400?text=Producto+Destacado" class="carousel-slide" />
-      <img src="https://via.placeholder.com/1200x400?text=Electrónica+Retro" class="carousel-slide" />
-    </div>
-    <button class="carousel-btn right" onclick="nextSlide()">&#10095;</button>
+<!-- Carrusel grande -->
+<div id="carouselWrapper">
+  <div id="carousel">
+    <img class="carousel-slide" src="img/banner1.jpg" alt="Banner 1" />
+    <img class="carousel-slide" src="img/banner2.jpg" alt="Banner 2" />
+    <img class="carousel-slide" src="img/banner3.jpg" alt="Banner 3" />
   </div>
+  <button id="prevCarousel">&#10094;</button>
+  <button id="nextCarousel">&#10095;</button>
+</div>
 
-  <!-- BUSCADOR -->
-  <div class="search-bar-container">
-    <input type="text" id="searchInput" placeholder="Buscar productos, categorías, ofertas..." />
-    <button class="search-btn" onclick="buscarProductos()">🔍</button>
-  </div>
+<!-- Productos por categoría -->
+<main id="productContainer"></main>
 
-  <!-- CONTENEDOR DE PRODUCTOS -->
-  <main id="productContainer"></main>
+<script src="script.js"></script>
 
-  <!-- BANNERS PUBLICITARIOS -->
-  <div id="banner-container"></div>
-
-  <!-- NOTIFICACIONES -->
-  <button id="notifBtn">Mostrar Oferta</button>
-  <div id="notifModal" class="modal">
-    <div class="modal-content">
-      <span id="notifClose" class="close">&times;</span>
-      <h2 id="notifTitle"></h2>
-      <img id="notifImg" src="" alt="" />
-      <p id="notifDesc"></p>
-      <p id="notifPrice"></p>
-    </div>
-  </div>
-
-  <!-- CARRITO -->
-  <button id="cartBtn">Carrito (<span id="cartCount">0</span>)</button>
-  <div id="cartModal" class="modal">
-    <div class="modal-content">
-      <span id="cartClose" class="close">&times;</span>
-      <h2>Tu Carrito</h2>
-      <div id="cartItems"></div>
-      <button id="clearCart">Vaciar Carrito</button>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
 </body>
 </html>
+
