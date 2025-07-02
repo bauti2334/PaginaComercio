@@ -6,7 +6,7 @@ const productos = [
     description: "Auriculares inalámbricos con cancelación de ruido",
     price: 4999,
     oldPrice: 7999,
-    image: "img/auriculares1.jpg",
+    image: "https://i.postimg.cc/QCG6HLnN/imagen-2025-07-02-133204338.png",
     tags: ["bluetooth", "auriculares"],
     mlLink: "https://www.mercadolibre.com.ar/auriculares-bluetooth/p1"
   },
