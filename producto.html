@@ -3,130 +3,403 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Detalle Producto</title>
+  <title>Detalle del Producto - Mi Tienda Retro</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Ajustes para producto.html */
+
+    body {
+      background: linear-gradient(135deg, #f8f0e3, #ffeecf);
+      color: #2a2a2a;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0 20px 40px 20px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px 0;
+      border-bottom: 3px solid #f4a300;
+      user-select: none;
+    }
+
+    header a.logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #2a2a2a;
+    }
+
+    header a.logo img {
+      height: 48px;
+      border-radius: 8px;
+      filter: drop-shadow(1px 1px 1px #bd7200);
+    }
+
+    header a.logo h1 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: 1.1px;
+      text-shadow: 1px 1px 0 #b05800;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 25px auto;
+      display: flex;
+      gap: 40px;
+      user-select: none;
+    }
+
+    /* Izquierda: imágenes */
+    .images-section {
+      flex: 1.1;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .main-image {
+      width: 100%;
+      border-radius: 14px;
+      box-shadow: 0 0 15px #f4a300bb;
+      cursor: zoom-in;
+    }
+
+    .thumbs {
+      display: flex;
+      gap: 12px;
+      justify-content: start;
+      overflow-x: auto;
+      padding-bottom: 6px;
+    }
+
+    .thumbs img {
+      width: 70px;
+      height: 70px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: border-color 0.25s ease;
+    }
+
+    .thumbs img.active {
+      border-color: #f4a300;
+      box-shadow: 0 0 12px #d68a00cc;
+    }
+
+    /* Derecha: info producto */
+    .info-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 20px;
+    }
+
+    .info-section h2 {
+      font-size: 2rem;
+      color: #a35400;
+      text-transform: capitalize;
+    }
+
+    .description {
+      font-size: 1.1rem;
+      line-height: 1.5;
+      color: #4a2b00;
+      font-weight: 500;
+    }
+
+    .price-box {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .price-box del {
+      color: #ad6a00;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .price-box strong {
+      color: #4a2b00;
+      font-size: 2rem;
+      font-weight: 900;
+    }
+
+    .buttons-row {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .buy-btn {
+      background: #f4a300;
+      border: none;
+      color: #2a2a2a;
+      font-weight: 800;
+      font-size: 1.3rem;
+      padding: 16px 32px;
+      border-radius: 30px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      user-select: none;
+      transition: background 0.25s ease;
+    }
+    .buy-btn:hover {
+      background: #d68a00;
+    }
+
+    .buy-btn svg {
+      width: 26px;
+      height: 26px;
+      fill: #2a2a2a;
+    }
+
+    .add-cart-btn {
+      background: #fff4b1;
+      border: 2.5px solid #f4a300;
+      border-radius: 26px;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      transition: background 0.3s ease, border-color 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      user-select: none;
+    }
+
+    .add-cart-btn:hover {
+      background: #f4a300;
+      border-color: #d68a00;
+    }
+
+    .add-cart-btn svg {
+      width: 26px;
+      height: 26px;
+      fill: #2a2a2a;
+    }
+
+    /* Detalles adicionales */
+    .extra-details {
+      background: #fff9e6;
+      border: 2px solid #f4a300;
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 0 16px #f4a300bb;
+      color: #4a2b00;
+      font-weight: 600;
+      max-height: 320px;
+      overflow-y: auto;
+    }
+
+    .extra-details h3 {
+      margin-bottom: 12px;
+      font-size: 1.4rem;
+      border-bottom: 2px solid #f4a300;
+      padding-bottom: 6px;
+    }
+
+    /* Scroll en thumbs y extra-details */
+    .thumbs::-webkit-scrollbar,
+    .extra-details::-webkit-scrollbar {
+      height: 8px;
+      width: 8px;
+      background: #ffeecf;
+      border-radius: 6px;
+    }
+
+    .thumbs::-webkit-scrollbar-thumb,
+    .extra-details::-webkit-scrollbar-thumb {
+      background: #f4a300;
+      border-radius: 6px;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      main {
+        flex-direction: column;
+        gap: 20px;
+      }
+      .info-section {
+        order: 2;
+      }
+      .images-section {
+        order: 1;
+      }
+    }
+  </style>
 </head>
 <body>
+
 <header>
-  <a href="index.html" class="logo">
+  <a href="index.html" class="logo" title="Volver a inicio">
     <img src="https://i.postimg.cc/RFr9m6GY/freepik-br-c1e0cdce-9a9e-4d16-a6d9-4dd03ea0907a.png" alt="Logo" />
     <h1>Mi Tienda Retro</h1>
   </a>
 </header>
 
-<main id="productDetail" class="product-detail-container">
-  <!-- Aquí se carga el detalle vía script -->
+<main>
+  <section class="images-section">
+    <img src="img/placeholder.jpg" alt="Imagen principal" class="main-image" id="mainImage" />
+    <div class="thumbs" id="thumbsContainer"></div>
+  </section>
+
+  <section class="info-section">
+    <h2 id="productName">Nombre del Producto</h2>
+    <p class="description" id="productDesc">Descripción breve del producto con sus características principales.</p>
+
+    <div class="price-box">
+      <del id="oldPrice">$0</del>
+      <strong id="realPrice">$0</strong>
+    </div>
+
+    <div class="buttons-row">
+      <button class="buy-btn" id="buyBtn" title="Comprar en Mercado Libre">
+        Comprar
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 2-2-.9-2-2-2zM7.16 14h9.38c.75 0 1.41-.41 1.75-1.03l3.24-6.06-1.74-1.02-3.4 6.37H8.53l-.34-1.01H4v2h3.16z" fill="#2a2a2a"/>
+        </svg>
+      </button>
+
+      <button class="add-cart-btn" id="addCartBtn" title="Añadir al carrito">
+        <svg viewBox="0 0 24 24" fill="#2a2a2a" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 2-2-.9-2-2-2zM7.16 14h9.38c.75 0 1.41-.41 1.75-1.03l3.24-6.06-1.74-1.02-3.4 6.37H8.53l-.34-1.01H4v2h3.16z"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="extra-details" id="extraDetails">
+      <h3>Detalles del Producto</h3>
+      <p>Aquí puedes poner especificaciones técnicas, materiales, dimensiones, garantía, y toda la info que quieras mostrar.</p>
+    </div>
+  </section>
 </main>
 
 <script>
+  // Obtener ID producto de URL
+  const params = new URLSearchParams(window.location.search);
+  const productId = params.get('id');
+
+  // Datos producto (deberías cargar desde JSON o backend, aquí simulado)
   const productos = [
     {
       id: "p1",
       name: "Auriculares Bluetooth",
-      description: "Auriculares inalámbricos con cancelación de ruido",
+      description: "Auriculares inalámbricos con cancelación de ruido y batería de larga duración.",
       price: 4999,
       oldPrice: 7999,
-      images: ["img/auriculares1.jpg", "img/auriculares2.jpg", "img/auriculares3.jpg"],
+      images: [
+        "img/auriculares1.jpg",
+        "img/auriculares2.jpg",
+        "img/auriculares3.jpg"
+      ],
+      details: "Material: plástico ABS, Conectividad: Bluetooth 5.0, Autonomía: 12h, Garantía: 12 meses",
       mlLink: "https://www.mercadolibre.com.ar/auriculares-bluetooth/p1"
     },
     {
       id: "p2",
       name: "Kit Arduino Uno",
-      description: "Kit completo de desarrollo con Arduino Uno R3",
+      description: "Kit completo de desarrollo con Arduino Uno R3, ideal para proyectos electrónicos.",
       price: 8999,
       oldPrice: 12999,
-      images: ["img/arduino1.jpg", "img/arduino2.jpg", "img/arduino3.jpg"],
+      images: [
+        "img/arduino1.jpg",
+        "img/arduino2.jpg",
+        "img/arduino3.jpg"
+      ],
+      details: "Incluye: Arduino Uno, cables, sensores básicos, placa protoboard, manual de uso.",
       mlLink: "https://www.mercadolibre.com.ar/kit-arduino-unoo/p2"
     },
     {
       id: "p3",
       name: "Teclado Retro Iluminado",
-      description: "Teclado mecánico retro con luces RGB",
+      description: "Teclado mecánico retro con luces RGB personalizables y switches táctiles.",
       price: 12999,
       oldPrice: 17999,
-      images: ["img/teclado1.jpg", "img/teclado2.jpg", "img/teclado3.jpg"],
+      images: [
+        "img/teclado1.jpg",
+        "img/teclado2.jpg",
+        "img/teclado3.jpg"
+      ],
+      details: "Switches: mecánicos táctiles, Iluminación: RGB, Cable: desmontable, Garantía: 24 meses",
       mlLink: "https://www.mercadolibre.com.ar/teclado-retro/p3"
     }
   ];
 
-  // Obtener ID de URL
-  const urlParams = new URLSearchParams(window.location.search);
-  const productId = urlParams.get("id");
-  const product = productos.find(p => p.id === productId);
+  // Referencias DOM
+  const mainImage = document.getElementById("mainImage");
+  const thumbsContainer = document.getElementById("thumbsContainer");
+  const productName = document.getElementById("productName");
+  const productDesc = document.getElementById("productDesc");
+  const oldPrice = document.getElementById("oldPrice");
+  const realPrice = document.getElementById("realPrice");
+  const extraDetails = document.getElementById("extraDetails");
+  const buyBtn = document.getElementById("buyBtn");
+  const addCartBtn = document.getElementById("addCartBtn");
 
-  if (!product) {
-    document.getElementById("productDetail").innerHTML = "<p>Producto no encontrado.</p>";
-  } else {
-    let currentImageIndex = 0;
+  // Buscar producto
+  const producto = productos.find(p => p.id === productId) || productos[0];
 
-    function showImage(index) {
-      currentImageIndex = (index + product.images.length) % product.images.length;
-      document.getElementById("mainImage").src = product.images[currentImageIndex];
-    }
+  // Cargar datos
+  function cargarProducto(prod) {
+    productName.textContent = prod.name;
+    productDesc.textContent = prod.description;
+    oldPrice.textContent = `$${prod.oldPrice}`;
+    realPrice.textContent = `$${prod.price}`;
+    extraDetails.querySelector('p').textContent = prod.details;
 
-    function addToCart() {
+    mainImage.src = prod.images[0];
+    mainImage.alt = prod.name;
+
+    // Miniaturas
+    thumbsContainer.innerHTML = "";
+    prod.images.forEach((imgSrc, i) => {
+      const thumb = document.createElement("img");
+      thumb.src = imgSrc;
+      thumb.alt = prod.name + " " + (i + 1);
+      if (i === 0) thumb.classList.add("active");
+      thumb.addEventListener("click", () => {
+        mainImage.src = imgSrc;
+        mainImage.alt = prod.name + " " + (i + 1);
+        // marcar activo
+        thumbsContainer.querySelectorAll("img").forEach(img => img.classList.remove("active"));
+        thumb.classList.add("active");
+      });
+      thumbsContainer.appendChild(thumb);
+    });
+
+    // Botón comprar abre ML
+    buyBtn.onclick = () => {
+      window.open(prod.mlLink, "_blank");
+    };
+
+    // Añadir al carrito
+    addCartBtn.onclick = () => {
       let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-      const existing = carrito.find(item => item.id === product.id);
-      if (existing) {
-        existing.cantidad++;
+      const existe = carrito.find(item => item.id === prod.id);
+      if (existe) {
+        existe.cantidad++;
       } else {
-        carrito.push({ id: product.id, cantidad: 1 });
+        carrito.push({ id: prod.id, cantidad: 1 });
       }
       localStorage.setItem("carrito", JSON.stringify(carrito));
-      alert("Producto añadido al carrito.");
-    }
-
-    function comprar() {
-      window.open(product.mlLink, "_blank");
-    }
-
-    document.getElementById("productDetail").innerHTML = `
-      <div class="product-images">
-        <img id="mainImage" src="${product.images[0]}" alt="${product.name}" />
-        <div class="image-thumbnails">
-          ${product.images.map((img, i) => `
-            <img src="${img}" alt="Imagen ${i+1}" class="thumb" data-index="${i}" />
-          `).join("")}
-        </div>
-      </div>
-      <div class="product-info">
-        <h2>${product.name}</h2>
-        <p><del>$${product.oldPrice}</del> <strong>$${product.price}</strong></p>
-        <p>${product.description}</p>
-        <div class="buttons-row">
-          <button class="buy-btn" id="buyBtn">
-            Comprar
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 2-2-.9-2-2-2zM7.16 14h9.69l1.24-5H6.12l1.04 5zM6 6H4v2h2l3.6 7.59-1.35 2.44C7.16 18.37 7 18.68 7 19c0 .55.45 1 1 1h12v-2H9.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.72c.75 0 1.41-.41 1.75-1.03L21.75 7H7.16z"/>
-            </svg>
-          </button>
-          <button id="addCartBtn" class="buy-btn" style="background:#eee;color:#2a2a2a;">
-            Añadir al carrito
-            <svg xmlns="http://www.w3.org/2000/svg" fill="#2a2a2a" viewBox="0 0 24 24" width="22" height="22">
-              <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 2-2-.9-2-2-2zM7.16 14h9.69l1.24-5H6.12l1.04 5zM6 6H4v2h2l3.6 7.59-1.35 2.44C7.16 18.37 7 18.68 7 19c0 .55.45 1 1 1h12v-2H9.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.72c.75 0 1.41-.41 1.75-1.03L21.75 7H7.16z"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-    `;
-
-    // Eventos imágenes thumbnails
-    document.querySelectorAll(".thumb").forEach(thumb => {
-      thumb.addEventListener("click", e => {
-        showImage(+e.target.dataset.index);
-      });
-    });
-
-    // Evento comprar
-    document.getElementById("buyBtn").addEventListener("click", () => {
-      comprar();
-    });
-
-    // Evento añadir carrito
-    document.getElementById("addCartBtn").addEventListener("click", () => {
-      addToCart();
-    });
+      alert(`Añadido ${prod.name} al carrito!`);
+    };
   }
+
+  cargarProducto(producto);
 </script>
+
 </body>
 </html>
