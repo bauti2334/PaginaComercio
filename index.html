@@ -9,33 +9,26 @@
 <body>
 
 <header>
-  <a href="index.html" class="logo">
+  <a href="index.html" class="logo" title="Volver a inicio">
     <img src="https://i.postimg.cc/RFr9m6GY/freepik-br-c1e0cdce-9a9e-4d16-a6d9-4dd03ea0907a.png" alt="Logo" />
     <h1>Mi Tienda Retro</h1>
   </a>
 
   <div class="header-right">
     <div class="search-container">
-      <input id="searchInput" type="text" placeholder="Buscar productos, categorías..." autocomplete="off" />
+      <input type="text" id="searchInput" placeholder="Buscar productos, categorías..." autocomplete="off" />
       <button id="searchBtn" aria-label="Buscar">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="#2a2a2a" height="20" viewBox="0 0 24 24" width="20">
-          <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16a6.471 6.471 0 004.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zM9.5 14A4.5 4.5 0 119.5 5a4.5 4.5 0 010 9z"/>
-        </svg>
+        🔍
       </button>
-
-      <!-- Dropdown sugerencias buscador -->
-      <ul id="searchSuggestions" class="suggestions-list"></ul>
+      <ul class="suggestions-list"></ul>
     </div>
 
     <div class="dropdown-wrapper">
       <button id="notifBtn" class="icon-btn" aria-label="Notificaciones">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="#f4a300" height="28" viewBox="0 0 24 24" width="28">
-          <path d="M12 22c1.1 0 2-.89 2-1.99h-4c0 1.1.9 1.99 2 1.99zm6-6V9c0-3.07-1.64-5.64-4.5-6.32V2a1.5 1.5 0 00-3 0v.68C7.64 3.36 6 5.92 6 9v7l-2 2v1h16v-1l-2-2z"/>
-        </svg>
-        <span id="notifCount" class="badge">0</span>
+        🔔
+        <span id="notifCount" class="badge"></span>
       </button>
-      <!-- Contenido dropdown notificaciones -->
-      <div id="notifDropdown" class="dropdown-content hidden">
+      <div id="notifDropdown" class="dropdown-content">
         <h3>Notificaciones</h3>
         <ul id="notifList"></ul>
         <button id="notifCloseBtn">Cerrar</button>
@@ -43,19 +36,14 @@
     </div>
 
     <div class="dropdown-wrapper">
-      <button id="cartBtn" class="icon-btn" aria-label="Carrito de compras">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="#f4a300" height="28" viewBox="0 0 24 24" width="28">
-          <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 2-2-.9-2-2-2zM7.16 14h9.69l1.24-5H6.12l1.04 5zM6 6H4v2h2l3.6 7.59-1.35 2.44C7.16 18.37 7 18.68 7 19c0 .55.45 1 1 1h12v-2H9.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.72c.75 0 1.41-.41 1.75-1.03L21.75 7H7.16z"/>
-        </svg>
-        <span id="cartCount" class="badge">0</span>
+      <button id="cartBtn" class="icon-btn" aria-label="Carrito de compra">
+        🛒
+        <span id="cartCount" class="badge"></span>
       </button>
-      <!-- Contenido dropdown carrito -->
-      <div id="cartDropdown" class="dropdown-content hidden">
-        <h3>Carrito de Compras</h3>
+      <div id="cartDropdown" class="dropdown-content">
+        <h3>Carrito de Compra</h3>
         <ul id="cartList"></ul>
-        <div class="cart-total">
-          Total: <strong id="cartTotal">$0</strong>
-        </div>
+        <p>Total: <strong id="cartTotal">$0.00</strong></p>
         <button id="cartBuyBtn">Comprar en Mercado Libre</button>
         <button id="cartCloseBtn">Cerrar</button>
       </div>
@@ -63,21 +51,40 @@
   </div>
 </header>
 
-<!-- Carrusel grande -->
 <div id="carouselWrapper">
   <div id="carousel">
-    <img class="carousel-slide" src="img/banner1.jpg" alt="Banner 1" />
-    <img class="carousel-slide" src="img/banner2.jpg" alt="Banner 2" />
-    <img class="carousel-slide" src="img/banner3.jpg" alt="Banner 3" />
+    <img src="img/banner1.jpg" alt="Banner 1" class="carousel-slide" />
+    <img src="img/banner2.jpg" alt="Banner 2" class="carousel-slide" />
+    <img src="img/banner3.jpg" alt="Banner 3" class="carousel-slide" />
   </div>
-  <button id="prevCarousel">&#10094;</button>
-  <button id="nextCarousel">&#10095;</button>
+  <button id="prevCarousel" aria-label="Anterior">◀</button>
+  <button id="nextCarousel" aria-label="Siguiente">▶</button>
 </div>
 
-<!-- Productos por categoría -->
 <main id="productContainer"></main>
 
 <script src="script.js"></script>
+<script>
+  // Botones cerrar dropdowns
+  document.getElementById("notifCloseBtn").addEventListener("click", () => {
+    document.getElementById("notifDropdown").classList.remove("visible");
+  });
+  document.getElementById("cartCloseBtn").addEventListener("click", () => {
+    document.getElementById("cartDropdown").classList.remove("visible");
+  });
+
+  // Click fuera cierra dropdowns
+  document.addEventListener("click", (e) => {
+    const notifDrop = document.getElementById("notifDropdown");
+    const cartDrop = document.getElementById("cartDropdown");
+    if (!document.getElementById("notifBtn").contains(e.target) && !notifDrop.contains(e.target)) {
+      notifDrop.classList.remove("visible");
+    }
+    if (!document.getElementById("cartBtn").contains(e.target) && !cartDrop.contains(e.target)) {
+      cartDrop.classList.remove("visible");
+    }
+  });
+</script>
 
 </body>
 </html>
