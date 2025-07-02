@@ -163,29 +163,55 @@ const notifDropdown = document.getElementById("notifDropdown");
 const notifList = document.getElementById("notifList");
 const notifCloseBtn = document.getElementById("notifCloseBtn");
 
-const notificacionesSimuladas = [
+const mensajesDisponibles = [
   "¡Oferta flash en auriculares Bluetooth!",
   "Nuevo stock de Kit Arduino Uno disponible",
-  "Teclado Retro con descuento especial"
+  "Teclado Retro con descuento especial",
+  "No te pierdas esta ganga en sensores!",
+  "¡Esto debe ser tuyo! Mira este producto en promoción",
+  "Combo de electrónica con 35% OFF por tiempo limitado"
 ];
 
+let notificacionesActuales = [];
+
+// Función para mostrar notificaciones actuales
 function actualizarNotificaciones() {
   notifList.innerHTML = "";
-  notificacionesSimuladas.forEach(mensaje => {
+  notificacionesActuales.forEach(mensaje => {
     const li = document.createElement("li");
     li.textContent = mensaje;
     notifList.appendChild(li);
   });
-  notifCount.textContent = notificacionesSimuladas.length;
-  notifCount.classList.add("visible");
+  notifCount.textContent = notificacionesActuales.length;
+  notifCount.classList.toggle("visible", notificacionesActuales.length > 0);
 }
 
+// Agrega una notificación aleatoria cada 1 minuto
+setInterval(() => {
+  const mensajeAleatorio = mensajesDisponibles[Math.floor(Math.random() * mensajesDisponibles.length)];
+  notificacionesActuales.unshift(mensajeAleatorio); // Lo agrega al principio
+  if (notificacionesActuales.length > 5) notificacionesActuales.pop(); // máx. 5 notificaciones
+  actualizarNotificaciones();
+}, 60000);
+
+// Mostrar/ocultar el panel de notificaciones
 notifBtn.addEventListener("click", () => {
   notifDropdown.classList.toggle("visible");
-  if (!cartDropdown.classList.contains("hidden")) {
+  if (typeof cartDropdown !== "undefined" && !cartDropdown.classList.contains("hidden")) {
     cartDropdown.classList.add("hidden");
   }
 });
+
+// Cerrar desde botón (si existe)
+if (notifCloseBtn) {
+  notifCloseBtn.addEventListener("click", () => {
+    notifDropdown.classList.remove("visible");
+  });
+}
+
+// Inicializa con una notificación para mostrar algo desde el principio
+notificacionesActuales.push("¡Oferta inicial en productos destacados!");
+actualizarNotificaciones();
 
 // Carrito
 const cartBtn = document.getElementById("cartBtn");
