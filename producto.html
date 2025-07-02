@@ -3,335 +3,85 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Detalle del Producto - Mi Tienda Retro</title>
+  <title>Detalle Producto</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" type="image/png" href="favicon.png" />
-  <style>
-    /* Estilos específicos para esta página */
-
-    body {
-      background: url('https://i.postimg.cc/FHzGf3WY/retro-futuristic-bg.jpg') no-repeat center center fixed;
-      background-size: cover;
-      color: #fff;
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 20px 40px;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      background: rgba(0,0,0,0.85);
-      border: 3px solid #f4a300;
-      border-radius: 16px;
-      padding: 30px;
-      display: flex;
-      gap: 40px;
-      flex-wrap: wrap;
-    }
-
-    .product-images {
-      flex: 1 1 400px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .main-image {
-      width: 100%;
-      border-radius: 12px;
-      object-fit: contain;
-      max-height: 400px;
-      box-shadow: 0 0 15px #f4a300;
-    }
-
-    .gallery {
-      display: flex;
-      gap: 12px;
-      overflow-x: auto;
-    }
-
-    .gallery img {
-      width: 80px;
-      height: 80px;
-      border-radius: 8px;
-      cursor: pointer;
-      border: 2px solid transparent;
-      transition: border-color 0.3s ease;
-      object-fit: contain;
-    }
-
-    .gallery img.selected {
-      border-color: #f4a300;
-    }
-
-    .product-details {
-      flex: 1 1 500px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      gap: 20px;
-    }
-
-    .product-details h1 {
-      font-size: 2.4rem;
-      color: #f4a300;
-    }
-
-    .prices {
-      font-size: 1.8rem;
-    }
-
-    .prices del {
-      color: #bbb;
-      margin-right: 12px;
-    }
-
-    .prices strong {
-      color: #e07f8f;
-    }
-
-    .buy-buttons {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .buy-buttons a,
-    .buy-buttons button {
-      padding: 14px 22px;
-      border-radius: 10px;
-      font-weight: 700;
-      cursor: pointer;
-      border: none;
-      font-size: 1.1rem;
-      transition: background-color 0.3s ease;
-      text-decoration: none;
-      color: #fff;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .buy-ml {
-      background: #f4a300;
-      color: #000;
-    }
-
-    .buy-ml:hover {
-      background: #e09200;
-    }
-
-    .buy-cart {
-      background: #e07f8f;
-    }
-
-    .buy-cart:hover {
-      background: #c96f77;
-    }
-
-    .description {
-      font-size: 1.1rem;
-      line-height: 1.5;
-      white-space: pre-wrap;
-      max-height: 150px;
-      overflow-y: auto;
-      border-top: 1px solid #444;
-      padding-top: 12px;
-      color: #ddd;
-    }
-
-    .features {
-      margin-top: 20px;
-    }
-
-    .features table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .features th,
-    .features td {
-      border: 1px solid #f4a300;
-      padding: 10px;
-      text-align: left;
-      color: #fff;
-    }
-
-    .features th {
-      background: #f4a300;
-      color: #000;
-    }
-
-    /* Responsive */
-    @media (max-width: 850px) {
-      .container {
-        flex-direction: column;
-        padding: 20px;
-      }
-      .product-images, .product-details {
-        flex: 1 1 100%;
-      }
-      .main-image {
-        max-height: 300px;
-      }
-    }
-  </style>
 </head>
 <body>
-<header style="
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: rgba(0, 0, 0, 0.85);
-  padding: 15px 30px;
-  border-bottom: 3px solid #f4a300;
-  margin-bottom: 40px;
-  border-radius: 0 0 16px 16px;
-">
-  <a href="index.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
-    <img src="https://i.postimg.cc/RFr9m6GY/freepik-br-c1e0cdce-9a9e-4d16-a6d9-4dd03ea0907a.png" alt="Logo" style="height: 50px; border-radius: 8px;" />
-    <h1 style="color: #f4a300; font-size: 1.8rem; margin: 0;">Mi Tienda Retro</h1>
-  </a>
-</header>
+  <header>
+    <a href="index.html">
+      <img src="https://i.postimg.cc/RFr9m6GY/freepik-br-c1e0cdce-9a9e-4d16-a6d9-4dd03ea0907a.png" alt="Logo" />
+      <h1>Mi Tienda Retro</h1>
+    </a>
+  </header>
 
-  <div class="container">
-    <div class="product-images">
-      <img id="mainImage" class="main-image" src="" alt="Imagen principal" />
-      <div class="gallery" id="gallery"></div>
-    </div>
-    <div class="product-details">
-      <h1 id="productName">Cargando...</h1>
-      <div class="prices">
-        <del id="oldPrice"></del>
-        <strong id="price"></strong>
-      </div>
-      <div class="buy-buttons">
-        <a id="mlBuyBtn" href="#" target="_blank" class="buy-ml">Comprar en MercadoLibre</a>
-        <button id="addCartBtn" class="buy-cart">Agregar al carrito</button>
-      </div>
-      <div class="description" id="description"></div>
+  <main id="detalleProducto" style="max-width: 900px; margin: 40px auto; background: #2a2a2a; border-radius: 12px; padding: 20px;">
+    <!-- Detalle cargado por JS -->
+  </main>
 
-      <div class="features">
-        <h3>Características técnicas</h3>
-        <table id="featuresTable">
-          <tbody></tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-<script>
-  // Simular datos (deberían venir de script.js o API real)
-  const products = [
-    {
-      id: "p1",
-      name: "Auricular Bluetooth A1",
-      description: "Auricular inalámbrico con sonido HD y diseño ergonómico.",
-      price: 5500,
-      oldPrice: 10000,
-      image: "https://via.placeholder.com/600x400?text=Auricular+A1",
-      images: [
-        "https://via.placeholder.com/600x400?text=Auricular+A1",
-        "https://via.placeholder.com/600x400?text=Auricular+A1+Detalle+1",
-        "https://via.placeholder.com/600x400?text=Auricular+A1+Detalle+2"
-      ],
-      mlLink: "https://mercadolibre.com.ar/producto1",
-      features: {
-        "Conectividad": "Bluetooth 5.0",
-        "Duración batería": "8 horas",
-        "Color": "Negro"
+  <script>
+    const productos = [
+      {
+        id: "p1",
+        name: "Auriculares Bluetooth",
+        description: "Auriculares inalámbricos con cancelación de ruido",
+        price: 4999,
+        oldPrice: 7999,
+        image: "img/auriculares.jpg",
+      },
+      {
+        id: "p2",
+        name: "Kit Arduino Uno",
+        description: "Kit completo de desarrollo con Arduino Uno R3",
+        price: 8999,
+        oldPrice: 12999,
+        image: "img/arduino.jpg",
+      },
+      {
+        id: "p3",
+        name: "Teclado Retro Iluminado",
+        description: "Teclado mecánico retro con luces RGB",
+        price: 12999,
+        oldPrice: 17999,
+        image: "img/teclado.jpg",
       }
-    },
-    {
-      id: "p2",
-      name: "Arduino UNO R3",
-      description: "Ideal para iniciarte en la electrónica y la programación.",
-      price: 4200,
-      oldPrice: 8000,
-      image: "https://via.placeholder.com/600x400?text=Arduino+UNO",
-      images: [
-        "https://via.placeholder.com/600x400?text=Arduino+UNO",
-        "https://via.placeholder.com/600x400?text=Arduino+UNO+Detalle+1"
-      ],
-      mlLink: "https://mercadolibre.com.ar/producto2",
-      features: {
-        "Microcontrolador": "ATmega328P",
-        "Voltaje": "5V",
-        "Entradas/Salidas": "14 digitales, 6 analógicas"
+    ];
+
+    function getParametro(name) {
+      const url = new URL(window.location.href);
+      return url.searchParams.get(name);
+    }
+
+    function cargarDetalle() {
+      const id = getParametro("id");
+      const prod = productos.find(p => p.id === id);
+      const cont = document.getElementById("detalleProducto");
+
+      if (!prod) {
+        cont.innerHTML = "<p>Producto no encontrado.</p>";
+        return;
       }
-    }
-  ];
 
-  function getProductIdFromURL() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get("id");
-  }
-
-  function setMainImage(src) {
-    const mainImg = document.getElementById("mainImage");
-    mainImg.src = src;
-  }
-
-  function renderGallery(images) {
-    const gallery = document.getElementById("gallery");
-    gallery.innerHTML = "";
-    images.forEach((imgSrc, index) => {
-      const img = document.createElement("img");
-      img.src = imgSrc;
-      img.alt = "Imagen detalle " + (index + 1);
-      img.className = index === 0 ? "selected" : "";
-      img.onclick = () => {
-        setMainImage(imgSrc);
-        document.querySelectorAll("#gallery img").forEach(el => el.classList.remove("selected"));
-        img.classList.add("selected");
-      };
-      gallery.appendChild(img);
-    });
-  }
-
-  function renderFeatures(features) {
-    const tbody = document.querySelector("#featuresTable tbody");
-    tbody.innerHTML = "";
-    for (const key in features) {
-      const tr = document.createElement("tr");
-      const th = document.createElement("th");
-      th.textContent = key;
-      const td = document.createElement("td");
-      td.textContent = features[key];
-      tr.appendChild(th);
-      tr.appendChild(td);
-      tbody.appendChild(tr);
-    }
-  }
-
-  function init() {
-    const id = getProductIdFromURL();
-    const product = products.find(p => p.id === id);
-    if (!product) {
-      alert("Producto no encontrado.");
-      window.location.href = "index.html";
-      return;
+      cont.innerHTML = `
+        <h2 style="color: #f4a300;">${prod.name}</h2>
+        <img src="${prod.image}" alt="${prod.name}" style="width: 100%; max-width: 400px; border-radius: 12px; margin: 20px 0;" />
+        <p>${prod.description}</p>
+        <p><del>$${prod.oldPrice}</del> <strong style="color:#f4a300; font-size: 1.5rem;">$${prod.price}</strong></p>
+        <button onclick="agregarAlCarrito('${prod.id}')" style="background:#f4a300; border:none; padding:12px 20px; font-weight:bold; border-radius: 10px; cursor:pointer;">Agregar al carrito</button>
+      `;
     }
 
-    document.getElementById("productName").textContent = product.name;
-    document.getElementById("oldPrice").textContent = product.oldPrice ? "$" + product.oldPrice : "";
-    document.getElementById("price").textContent = "$" + product.price;
-    document.getElementById("mlBuyBtn").href = product.mlLink;
-    document.getElementById("description").textContent = product.description;
+    function agregarAlCarrito(id) {
+      let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+      if (carrito.find(item => item.id === id)) {
+        alert("El producto ya está en el carrito.");
+        return;
+      }
+      carrito.push({id});
+      localStorage.setItem("carrito", JSON.stringify(carrito));
+      alert("Producto agregado al carrito.");
+    }
 
-    setMainImage(product.image);
-    renderGallery(product.images);
-    renderFeatures(product.features);
-
-    document.getElementById("addCartBtn").onclick = () => {
-      alert("Funcionalidad carrito en esta página pendiente (depende de integración).");
-    };
-  }
-
-  window.onload = init;
-</script>
-
+    window.onload = cargarDetalle;
+  </script>
 </body>
 </html>
