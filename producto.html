@@ -3,46 +3,207 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Detalle Producto</title>
+  <title>Detalle Producto - Mi Tienda Retro</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Estilos extra solo para esta página producto */
+    main {
+      max-width: 1000px;
+      margin: 40px auto;
+      background: #2a2a2a;
+      border-radius: 12px;
+      padding: 20px;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      box-shadow: 0 0 20px #f4a300;
+    }
+    .producto-container {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .carousel-producto {
+      flex: 1 1 400px;
+      max-width: 400px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 0 15px #f4a300;
+      background: #111;
+    }
+    .carousel-producto img {
+      width: 100%;
+      height: 400px;
+      object-fit: contain;
+      transition: transform 0.5s ease-in-out;
+    }
+    .carousel-producto .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.6);
+      border: none;
+      color: #f4a300;
+      font-size: 2rem;
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 50%;
+      user-select: none;
+      z-index: 10;
+    }
+    .carousel-producto .left {
+      left: 10px;
+    }
+    .carousel-producto .right {
+      right: 10px;
+    }
+    .producto-detalles {
+      flex: 1 1 450px;
+      max-width: 450px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+    .producto-detalles h2 {
+      color: #f4a300;
+      margin-bottom: 10px;
+    }
+    .producto-detalles .precio {
+      font-size: 2rem;
+      margin: 15px 0;
+    }
+    .precio-old {
+      text-decoration: line-through;
+      color: #c34e00;
+      margin-right: 10px;
+      font-size: 1.4rem;
+    }
+    .precio-new {
+      color: #f4a300;
+      font-weight: bold;
+    }
+    .producto-detalles button {
+      background: #f4a300;
+      color: #2a2a2a;
+      font-weight: bold;
+      font-size: 1.2rem;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background 0.3s ease;
+    }
+    .producto-detalles button:hover {
+      background: #d88a00;
+    }
+    .descripcion {
+      margin-top: 30px;
+      line-height: 1.4;
+      font-size: 1rem;
+      color: #ddd;
+      border-top: 1px solid #444;
+      padding-top: 20px;
+    }
+    .caracteristicas {
+      margin-top: 20px;
+      color: #f4a300;
+    }
+    .caracteristicas ul {
+      list-style-type: disc;
+      margin-left: 20px;
+    }
+  </style>
 </head>
 <body>
   <header>
-    <a href="index.html">
-      <img src="https://i.postimg.cc/RFr9m6GY/freepik-br-c1e0cdce-9a9e-4d16-a6d9-4dd03ea0907a.png" alt="Logo" />
-      <h1>Mi Tienda Retro</h1>
+    <a href="index.html" style="display:flex; align-items:center; gap:10px; padding:15px 30px; background: rgba(0,0,0,0.85); border-bottom: 3px solid #f4a300; text-decoration:none; color:#f4a300;">
+      <img src="https://i.postimg.cc/RFr9m6GY/freepik-br-c1e0cdce-9a9e-4d16-a6d9-4dd03ea0907a.png" alt="Logo" style="height:50px; border-radius:8px;" />
+      <h1 style="margin:0; font-size:1.8rem;">Mi Tienda Retro</h1>
     </a>
   </header>
 
-  <main id="detalleProducto" style="max-width: 900px; margin: 40px auto; background: #2a2a2a; border-radius: 12px; padding: 20px;">
-    <!-- Detalle cargado por JS -->
+  <main>
+    <div class="producto-container">
+      <div class="carousel-producto">
+        <button class="carousel-btn left" id="prevBtn">&#10094;</button>
+        <img id="slideImg" src="" alt="Imagen producto" />
+        <button class="carousel-btn right" id="nextBtn">&#10095;</button>
+      </div>
+
+      <div class="producto-detalles">
+        <h2 id="prodName"></h2>
+        <div class="precio">
+          <span class="precio-old" id="oldPrice"></span>
+          <span class="precio-new" id="newPrice"></span>
+        </div>
+        <button id="addCartBtn">Agregar al carrito</button>
+        <div class="descripcion" id="prodDesc"></div>
+        <div class="caracteristicas" id="prodSpecs">
+          <h3>Características:</h3>
+          <ul id="specList"></ul>
+        </div>
+      </div>
+    </div>
   </main>
 
   <script>
+    // Productos con más imágenes y características
     const productos = [
       {
         id: "p1",
         name: "Auriculares Bluetooth",
-        description: "Auriculares inalámbricos con cancelación de ruido",
+        description: "Auriculares inalámbricos con cancelación de ruido. Alta calidad de sonido y hasta 12 horas de batería.",
         price: 4999,
         oldPrice: 7999,
-        image: "img/auriculares.jpg",
+        images: [
+          "img/auriculares1.jpg",
+          "img/auriculares2.jpg",
+          "img/auriculares3.jpg"
+        ],
+        specs: [
+          "Conectividad Bluetooth 5.0",
+          "Cancelación activa de ruido",
+          "Micrófono integrado",
+          "Compatible con Android y iOS",
+          "Carga rápida en 1 hora"
+        ]
       },
       {
         id: "p2",
         name: "Kit Arduino Uno",
-        description: "Kit completo de desarrollo con Arduino Uno R3",
+        description: "Kit completo de desarrollo con Arduino Uno R3, sensores y accesorios para tus proyectos electrónicos.",
         price: 8999,
         oldPrice: 12999,
-        image: "img/arduino.jpg",
+        images: [
+          "img/arduino1.jpg",
+          "img/arduino2.jpg"
+        ],
+        specs: [
+          "Placa Arduino Uno R3 original",
+          "Incluye sensores y cables",
+          "Manual de proyectos paso a paso",
+          "Compatible con IDE Arduino"
+        ]
       },
       {
         id: "p3",
         name: "Teclado Retro Iluminado",
-        description: "Teclado mecánico retro con luces RGB",
+        description: "Teclado mecánico retro con luces RGB personalizables, switches mecánicos de alta durabilidad.",
         price: 12999,
         oldPrice: 17999,
-        image: "img/teclado.jpg",
+        images: [
+          "img/teclado1.jpg",
+          "img/teclado2.jpg",
+          "img/teclado3.jpg"
+        ],
+        specs: [
+          "Switches mecánicos Cherry MX",
+          "Retroiluminación RGB configurable",
+          "Construcción en aluminio resistente",
+          "Diseño ergonómico"
+        ]
       }
     ];
 
@@ -51,35 +212,70 @@
       return url.searchParams.get(name);
     }
 
+    // Variables para carrusel
+    let currentImageIndex = 0;
+    let currentProduct = null;
+
+    const slideImg = document.getElementById("slideImg");
+    const prodName = document.getElementById("prodName");
+    const oldPrice = document.getElementById("oldPrice");
+    const newPrice = document.getElementById("newPrice");
+    const prodDesc = document.getElementById("prodDesc");
+    const specList = document.getElementById("specList");
+    const addCartBtn = document.getElementById("addCartBtn");
+
+    function mostrarImagen(ind) {
+      if (!currentProduct) return;
+      const imgs = currentProduct.images;
+      currentImageIndex = (ind + imgs.length) % imgs.length;
+      slideImg.src = imgs[currentImageIndex];
+      slideImg.alt = currentProduct.name + " imagen " + (currentImageIndex + 1);
+    }
+
     function cargarDetalle() {
       const id = getParametro("id");
-      const prod = productos.find(p => p.id === id);
-      const cont = document.getElementById("detalleProducto");
+      currentProduct = productos.find(p => p.id === id);
 
-      if (!prod) {
-        cont.innerHTML = "<p>Producto no encontrado.</p>";
+      if (!currentProduct) {
+        document.querySelector("main").innerHTML = "<p>Producto no encontrado.</p>";
         return;
       }
 
-      cont.innerHTML = `
-        <h2 style="color: #f4a300;">${prod.name}</h2>
-        <img src="${prod.image}" alt="${prod.name}" style="width: 100%; max-width: 400px; border-radius: 12px; margin: 20px 0;" />
-        <p>${prod.description}</p>
-        <p><del>$${prod.oldPrice}</del> <strong style="color:#f4a300; font-size: 1.5rem;">$${prod.price}</strong></p>
-        <button onclick="agregarAlCarrito('${prod.id}')" style="background:#f4a300; border:none; padding:12px 20px; font-weight:bold; border-radius: 10px; cursor:pointer;">Agregar al carrito</button>
-      `;
+      prodName.textContent = currentProduct.name;
+      oldPrice.textContent = "$" + currentProduct.oldPrice;
+      newPrice.textContent = "$" + currentProduct.price;
+      prodDesc.textContent = currentProduct.description;
+
+      // Lista de características
+      specList.innerHTML = "";
+      currentProduct.specs.forEach(spec => {
+        const li = document.createElement("li");
+        li.textContent = spec;
+        specList.appendChild(li);
+      });
+
+      mostrarImagen(0);
     }
 
-    function agregarAlCarrito(id) {
+    // Navegación carrusel
+    document.getElementById("prevBtn").addEventListener("click", () => {
+      mostrarImagen(currentImageIndex - 1);
+    });
+    document.getElementById("nextBtn").addEventListener("click", () => {
+      mostrarImagen(currentImageIndex + 1);
+    });
+
+    // Agregar al carrito
+    addCartBtn.addEventListener("click", () => {
       let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-      if (carrito.find(item => item.id === id)) {
+      if (carrito.find(item => item.id === currentProduct.id)) {
         alert("El producto ya está en el carrito.");
         return;
       }
-      carrito.push({id});
+      carrito.push({id: currentProduct.id});
       localStorage.setItem("carrito", JSON.stringify(carrito));
       alert("Producto agregado al carrito.");
-    }
+    });
 
     window.onload = cargarDetalle;
   </script>
