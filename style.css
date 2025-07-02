@@ -449,4 +449,85 @@ main#productContainer h2 {
   cursor: pointer;
   width: 100%;
 }
+/* 🌌 MODO OSCURO RETRO-FUTURISTA */
+body.dark-mode {
+  background: #111;
+  color: #f0f0f0;
+}
+
+body.dark-mode header {
+  background: #1a1a1a;
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode .logo h1,
+body.dark-mode .product-card h3,
+body.dark-mode .product-card strong {
+  color: #ff6ec7;
+}
+
+body.dark-mode .product-card {
+  background: #1e1e1e;
+  border: 1px solid #ff6ec7;
+  box-shadow: 0 0 8px #ff6ec7aa;
+}
+
+body.dark-mode .dropdown-content {
+  background: #222;
+  border-color: #ff6ec7;
+  color: #fff;
+}
+
+body.dark-mode .dropdown-content h3,
+body.dark-mode .dropdown-content ul li {
+  color: #ffe347;
+}
+
+body.dark-mode .buy-btn {
+  background: #ff6ec7;
+  color: #111;
+}
+
+body.dark-mode .buy-btn:hover {
+  background: #ffe347;
+  color: #000;
+}
+
+/* 🌟 TRANSICIONES Y ANIMACIONES */
+.product-card {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.4s ease-in-out;
+}
+
+.product-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-in {
+  animation: fadeIn 0.6s ease-out both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* 🌓 BOTÓN DE MODO OSCURO */
+#toggleDarkMode {
+  background: #222;
+  color: #ff6ec7;
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid #ff6ec7;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#toggleDarkMode:hover {
+  background: #ff6ec7;
+  color: #111;
+}
 
