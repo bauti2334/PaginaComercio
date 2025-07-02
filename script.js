@@ -241,3 +241,40 @@ clearCartBtn.onclick = () => {
 renderCategories(productos);
 showSlide(0);
 actualizarContador();
+
+const notifBtn = document.getElementById("notifBtn");
+const notifCount = document.getElementById("notifCount");
+const cartBtn = document.getElementById("cartBtn");
+const cartCount = document.getElementById("cartCount");
+
+function actualizarContadoresCabecera() {
+  // Ejemplo simple: número de notificaciones (puedes adaptar a tu lógica)
+  const notificaciones = Math.floor(Math.random() * 3); // simulamos 0,1 o 2 notis
+  notifCount.textContent = notificaciones;
+  notifCount.style.visibility = notificaciones > 0 ? "visible" : "hidden";
+
+  // Cantidad productos en carrito (guardados en localStorage)
+  let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+  cartCount.textContent = carrito.length;
+  cartCount.style.visibility = carrito.length > 0 ? "visible" : "hidden";
+}
+
+notifBtn.onclick = () => {
+  alert("¡Tienes nuevas ofertas e imperdibles!");
+  // Aquí puedes abrir un modal o mostrar notificaciones reales
+};
+
+cartBtn.onclick = () => {
+  alert("Aquí se mostraría el carrito de compras.");
+  // Aquí puedes abrir un modal o página carrito
+};
+
+document.getElementById("searchBtn").onclick = () => {
+  const termino = document.getElementById("searchInput").value.trim();
+  if (termino.length > 0) {
+    buscarProductos(); // Usa tu función para filtrar y mostrar productos
+  }
+};
+
+// Actualiza contadores al cargar la página
+window.addEventListener("load", actualizarContadoresCabecera);
