@@ -258,3 +258,34 @@ main {
   cursor: pointer;
 }
 
+.search-bar-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px auto 40px;
+  max-width: 600px;
+  position: relative;
+}
+
+.search-bar-container input[type="text"] {
+  width: 100%;
+  padding: 14px 50px 14px 20px;
+  border-radius: 40px;
+  border: 2px solid #f4a300;
+  font-size: 1.1rem;
+  outline: none;
+  background: #111;
+  color: #fff;
+  box-shadow: 0 0 10px #f4a30088;
+}
+
+.search-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #f4a300;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
