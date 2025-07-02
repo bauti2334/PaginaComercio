@@ -5,47 +5,190 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Mi Tienda Retro</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="icon" href="favicon.png" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('https://i.postimg.cc/FHzGf3WY/retro-futuristic-bg.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.85);
+      padding: 15px 30px;
+      border-bottom: 3px solid #f4a300;
+      justify-content: space-between;
+    }
+
+    header a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    header img {
+      height: 50px;
+      border-radius: 8px;
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      color: #f4a300;
+      margin: 0;
+    }
+
+    /* Search */
+    .search-bar-container {
+      display: flex;
+      justify-content: center;
+      margin: 30px auto;
+      max-width: 600px;
+      position: relative;
+    }
+
+    .search-bar-container input[type="text"] {
+      width: 100%;
+      padding: 14px 50px 14px 20px;
+      border-radius: 40px;
+      border: 2px solid #f4a300;
+      font-size: 1.1rem;
+      outline: none;
+      background: #111;
+      color: #fff;
+      box-shadow: 0 0 10px #f4a30088;
+    }
+
+    .search-btn {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #f4a300;
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+
+    /* Carrusel */
+    .carousel-container {
+      position: relative;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto 40px;
+      overflow: hidden;
+      border-radius: 16px;
+      box-shadow: 0 0 20px #f4a300;
+    }
+
+    .carousel {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .carousel-slide {
+      min-width: 100%;
+      object-fit: cover;
+      height: 400px;
+    }
+
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      font-size: 2rem;
+      border: none;
+      cursor: pointer;
+      padding: 12px;
+      z-index: 2;
+    }
+
+    .carousel-btn.left { left: 10px; }
+    .carousel-btn.right { right: 10px; }
+
+    /* Productos container */
+    #productContainer {
+      padding: 40px;
+      max-width: 1200px;
+      margin: auto;
+    }
+  </style>
 </head>
 <body>
-<header>
-  <div class="logo">
-    <img src="https://i.postimg.cc/RFr9m6GY/freepik-br-c1e0cdce-9a9e-4d16-a6d9-4dd03ea0907a.png" alt="Logo Mi Tienda" />
-    <h1>Mi Tienda Retro</h1>
+
+  <!-- ✅ HEADER -->
+  <header>
+    <a href="index.html">
+      <img src="https://i.postimg.cc/RFr9m6GY/freepik-br-c1e0cdce-9a9e-4d16-a6d9-4dd03ea0907a.png" alt="Logo" />
+      <h1>Mi Tienda Retro</h1>
+    </a>
+  </header>
+
+  <!-- ✅ CARRUSEL -->
+  <div class="carousel-container">
+    <button class="carousel-btn left" onclick="prevSlide()">&#10094;</button>
+    <div class="carousel" id="carousel">
+      <img src="https://via.placeholder.com/1200x400?text=Oferta+1" class="carousel-slide" />
+      <img src="https://via.placeholder.com/1200x400?text=Producto+Destacado" class="carousel-slide" />
+      <img src="https://via.placeholder.com/1200x400?text=Electrónica+Retro" class="carousel-slide" />
+    </div>
+    <button class="carousel-btn right" onclick="nextSlide()">&#10095;</button>
   </div>
-  <div class="header-controls">
-    <input type="text" id="searchInput" placeholder="Buscar productos..." />
-    <select id="filterSelect" multiple></select>
-    <button id="notifyBtn">Notificaciones</button>
-    <div id="cartIcon">🛒 <span id="cartCount">0</span></div>
+
+  <!-- ✅ BUSCADOR -->
+  <div class="search-bar-container">
+    <input type="text" id="searchInput" placeholder="Buscar productos, categorías, ofertas..." />
+    <button class="search-btn" onclick="buscarProductos()">🔍</button>
   </div>
-</header>
-<!-- Carrusel -->
-<div class="carousel-container">
-  <button class="carousel-btn left" onclick="prevSlide()">&#10094;</button>
-  <div class="carousel" id="carousel">
-    <img src="https://via.placeholder.com/1200x400?text=Oferta+1" class="carousel-slide" />
-    <img src="https://via.placeholder.com/1200x400?text=Producto+Destacado" class="carousel-slide" />
-    <img src="https://via.placeholder.com/1200x400?text=Electrónica+Retro" class="carousel-slide" />
-  </div>
-  <button class="carousel-btn right" onclick="nextSlide()">&#10095;</button>
-</div>
 
-<!-- Buscador -->
-<div class="search-bar-container">
-  <input type="text" id="searchInput" placeholder="Buscar productos, categorías, ofertas..." />
-  <button class="search-btn">&#128269;</button>
-</div>
+  <!-- ✅ CONTENEDOR DE PRODUCTOS -->
+  <main id="productContainer">
+    <!-- Renderizado desde script.js -->
+  </main>
 
-<main id="mainContent"></main>
+  <!-- ✅ SCRIPTS -->
+  <script src="script.js"></script>
+  <script>
+    // Carrusel
+    let currentSlide = 0;
+    const slides = document.querySelectorAll(".carousel-slide");
 
-<!-- Modales (producto, carrito, notificaciones) -->
-<div id="productModal" class="modal"></div>
-<div id="cartModal" class="modal"></div>
-<div id="notificationModal" class="modal"></div>
-<div id="adContainer"></div>
+    function showSlide(index) {
+      const total = slides.length;
+      currentSlide = (index + total) % total;
+      document.getElementById("carousel").style.transform = `translateX(-${currentSlide * 100}%)`;
+    }
 
-<script src="script.js"></script>
+    function nextSlide() { showSlide(currentSlide + 1); }
+    function prevSlide() { showSlide(currentSlide - 1); }
+
+    setInterval(() => nextSlide(), 8000); // auto-slide cada 8s
+
+    // Buscador
+    function buscarProductos() {
+      const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+
+      const productosFiltrados = productos.filter((producto) =>
+        producto.name.toLowerCase().includes(searchTerm) ||
+        producto.description.toLowerCase().includes(searchTerm) ||
+        (producto.tags || []).some(tag => tag.toLowerCase().includes(searchTerm))
+      );
+
+      renderCategories(productosFiltrados);
+    }
+
+    document.getElementById("searchInput").addEventListener("keypress", function (e) {
+      if (e.key === "Enter") buscarProductos();
+    });
+  </script>
 </body>
 </html>
 
