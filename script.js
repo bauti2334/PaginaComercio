@@ -385,8 +385,23 @@ function prevSlide() {
   showSlide(currentSlide - 1);
 }
 
+function buscarProductos() {
+  const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+
+  const productosFiltrados = productos.filter((producto) =>
+    producto.name.toLowerCase().includes(searchTerm) ||
+    producto.description.toLowerCase().includes(searchTerm) ||
+    (producto.tags || []).some(tag => tag.toLowerCase().includes(searchTerm))
+  );
+
+  renderCategories(productosFiltrados); // actualiza la vista con los resultados
+}
+
 // Auto-slide (opcional)
 setInterval(() => {
   nextSlide();
 }, 8000); // cada 8 segundos
 
+document.getElementById("searchInput").addEventListener("keypress", function (e) {
+  if (e.key === "Enter") buscarProductos();
+});
