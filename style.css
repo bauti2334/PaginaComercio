@@ -298,17 +298,18 @@ main#productContainer h2 {
   display: flex;
   overflow: hidden;
   max-width: 100%;
-  max-height: 300px; /* límite de altura para el banner */
+  height: 300px; /* altura fija del banner */
 }
 
 #carousel img.carousel-slide {
-  width: 100%;
-  height: auto;        /* altura automática para respetar proporción */
-  max-height: 300px;   /* no superar altura límite */
-  object-fit: contain; /* mantiene la imagen dentro sin recortar */
+  width: 100%;      /* que ocupe todo el ancho del contenedor */
+  height: auto;     /* auto para mantener proporción */
+  max-height: 300px;
+  object-fit: scale-down; /* reduce la imagen sin recortar, si cabe */
   flex-shrink: 0;
-  transition: transform 0.5s ease;
+  margin: auto 0;   /* centra verticalmente si no llena la altura */
 }
+
 
 
 #prevCarousel, #nextCarousel {
