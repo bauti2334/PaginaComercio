@@ -9,7 +9,7 @@
 </head>
 <body>
 
-  <!-- ✅ HEADER -->
+  <!-- HEADER -->
   <header>
     <a href="index.html">
       <img src="https://i.postimg.cc/RFr9m6GY/freepik-br-c1e0cdce-9a9e-4d16-a6d9-4dd03ea0907a.png" alt="Logo" />
@@ -17,7 +17,7 @@
     </a>
   </header>
 
-  <!-- ✅ CARRUSEL -->
+  <!-- CARRUSEL -->
   <div class="carousel-container">
     <button class="carousel-btn left" onclick="prevSlide()">&#10094;</button>
     <div class="carousel" id="carousel">
@@ -28,16 +28,41 @@
     <button class="carousel-btn right" onclick="nextSlide()">&#10095;</button>
   </div>
 
-  <!-- ✅ BUSCADOR -->
+  <!-- BUSCADOR -->
   <div class="search-bar-container">
     <input type="text" id="searchInput" placeholder="Buscar productos, categorías, ofertas..." />
     <button class="search-btn" onclick="buscarProductos()">🔍</button>
   </div>
 
-  <!-- ✅ CONTENEDOR DE PRODUCTOS -->
+  <!-- CONTENEDOR DE PRODUCTOS -->
   <main id="productContainer"></main>
+
+  <!-- BANNERS PUBLICITARIOS -->
+  <div id="banner-container"></div>
+
+  <!-- NOTIFICACIONES -->
+  <button id="notifBtn">Mostrar Oferta</button>
+  <div id="notifModal" class="modal">
+    <div class="modal-content">
+      <span id="notifClose" class="close">&times;</span>
+      <h2 id="notifTitle"></h2>
+      <img id="notifImg" src="" alt="" />
+      <p id="notifDesc"></p>
+      <p id="notifPrice"></p>
+    </div>
+  </div>
+
+  <!-- CARRITO -->
+  <button id="cartBtn">Carrito (<span id="cartCount">0</span>)</button>
+  <div id="cartModal" class="modal">
+    <div class="modal-content">
+      <span id="cartClose" class="close">&times;</span>
+      <h2>Tu Carrito</h2>
+      <div id="cartItems"></div>
+      <button id="clearCart">Vaciar Carrito</button>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
 </html>
-
