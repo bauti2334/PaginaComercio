@@ -366,3 +366,27 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.target === notificationModal) notificationModal.style.display = "none";
   };
 });
+// Carrusel de imágenes
+let currentSlide = 0;
+const slides = document.querySelectorAll(".carousel-slide");
+
+function showSlide(index) {
+  const total = slides.length;
+  currentSlide = (index + total) % total;
+  const carousel = document.getElementById("carousel");
+  carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
+}
+
+function nextSlide() {
+  showSlide(currentSlide + 1);
+}
+
+function prevSlide() {
+  showSlide(currentSlide - 1);
+}
+
+// Auto-slide (opcional)
+setInterval(() => {
+  nextSlide();
+}, 8000); // cada 8 segundos
+
